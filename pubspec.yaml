@@ -46,6 +46,7 @@ dependencies:
   page_transition: ^2.1.0
   flutter_svg: ^2.0.16
   fadingpageview: ^1.0.0
+  google_fonts: ^6.2.1
 
 dev_dependencies:
   flutter_test:
@@ -70,7 +71,6 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/fonts/
     - assets/images/
     - assets/icons/
     - assets/logos/
@@ -86,10 +86,10 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  fonts:
-    - family: Plus Jakarta Sans
-      fonts:
-        - asset: assets/fonts/PlusJakartaSans-Regular.ttf
+  # fonts:
+  #   - family: Plus Jakarta Sans
+  #     fonts:
+  #       - asset: assets/fonts/PlusJakartaSans-Regular.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package

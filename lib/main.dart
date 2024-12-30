@@ -8,9 +8,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:mypins/controllers/home_controller.dart';
 import 'package:mypins/controllers/settings_controller.dart';
 import 'package:mypins/services/local_storage.dart';
+import 'package:mypins/views/onboarding_view.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:mypins/config/colors.dart';
 import 'package:mypins/config/constants.dart';
@@ -74,30 +76,30 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       theme: ThemeData(
         useMaterial3: true,
-        // fontFamily: 'Ubuntu',
         scaffoldBackgroundColor: whiteColor,
         splashFactory: NoSplash.splashFactory,
         splashColor: Colors.transparent,
         hoverColor: Colors.transparent,
         highlightColor: Colors.transparent,
-        appBarTheme: const AppBarTheme(
+        appBarTheme: AppBarTheme(
           centerTitle: true,
-          titleTextStyle: TextStyle(
+          titleTextStyle: GoogleFonts.plusJakartaSans(
             color: primaryColor,
             fontSize: 16,
             fontWeight: FontWeight.bold,
           ),
-          actionsIconTheme: IconThemeData(color: primaryColor),
+          actionsIconTheme: const IconThemeData(color: primaryColor),
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.transparent,
+            backgroundColor: primaryColor,
+            foregroundColor: whiteColor,
             shadowColor: Colors.transparent,
             minimumSize: Size.zero,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
-            textStyle: const TextStyle(
+            textStyle: GoogleFonts.plusJakartaSans(
               fontSize: 14,
               fontWeight: FontWeight.bold,
             ),
@@ -107,7 +109,7 @@ class MyApp extends StatelessWidget {
       navigatorKey: NavigatorKey.navigatorKey,
       home: LocalStorage.getData(isOnboardingDone, KeyType.BOOL)
           ? Container()
-          : Container(),
+          : const OnboardingView(),
     );
   }
 }
