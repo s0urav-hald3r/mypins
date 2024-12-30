@@ -83,6 +83,7 @@ class MyApp extends StatelessWidget {
         hoverColor: Colors.transparent,
         highlightColor: Colors.transparent,
         appBarTheme: AppBarTheme(
+          backgroundColor: whiteColor,
           centerTitle: true,
           titleTextStyle: GoogleFonts.plusJakartaSans(
             color: primaryColor,

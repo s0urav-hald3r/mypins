@@ -1,10 +1,83 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:mypins/config/colors.dart';
+import 'package:mypins/config/icons.dart';
+import 'package:mypins/controllers/home_controller.dart';
+import 'package:mypins/utils/extension.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    final controller = HomeController.instance;
+
+    return Obx(() {
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text('MyPins'),
+          actions: [
+            InkWell(
+              onTap: () {},
+              child: SvgPicture.asset(settingsIcon),
+            ),
+            SizedBox(width: 20.w),
+          ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          shape: const CircleBorder(),
+          onPressed: () {},
+          backgroundColor: primaryColor,
+          child: SvgPicture.asset(downloadIcon),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        bottomNavigationBar: BottomAppBar(
+          height: 70.h,
+          color: whiteColor,
+          notchMargin: 5,
+          elevation: 10,
+          shape: const CircularNotchedRectangle(),
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+            _navItem(0, pinSaveIcon, 'Pin Save', () {
+              controller.homeIndex = 0;
+              controller.pageController.jumpToPage(0);
+            }),
+            _navItem(1, collectionsIcon, 'Collections', () {
+              controller.homeIndex = 1;
+              controller.pageController.jumpToPage(1);
+            }),
+          ]),
+        ),
+      );
+    });
+  }
+
+  Widget _navItem(int index, String icon, String title, Function callBack) {
+    return InkWell(
+      onTap: () {
+        callBack();
+      },
+      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+        SvgPicture.asset(
+          icon,
+          color: HomeController.instance.homeIndex == index
+              ? primaryColor
+              : offWhiteColor,
+        ),
+        SizedBox(height: 6.h),
+        Text(
+          title,
+          style: TextStyle(
+            fontWeight: FontWeight.w500,
+            fontSize: 12,
+            color: HomeController.instance.homeIndex == index
+                ? primaryColor
+                : offWhiteColor,
+          ),
+        )
+      ]),
+    );
   }
 }
