@@ -1,10 +1,14 @@
 import 'package:fadingpageview/fadingpageview.dart';
 import 'package:flutter/material.dart';
 import 'package:mypins/components/onboarding/page_one.dart';
+import 'package:mypins/components/onboarding/page_three.dart';
+import 'package:mypins/components/onboarding/page_two.dart';
 import 'package:mypins/config/constants.dart';
 import 'package:mypins/controllers/home_controller.dart';
 import 'package:mypins/services/local_storage.dart';
+import 'package:mypins/services/navigator_key.dart';
 import 'package:mypins/utils/extension.dart';
+import 'package:mypins/views/home_view.dart';
 
 class OnboardingView extends StatefulWidget {
   const OnboardingView({super.key});
@@ -32,7 +36,11 @@ class _OnboardingViewState extends State<OnboardingView> {
               fadeInDuration: const Duration(milliseconds: 250),
               fadeOutDuration: const Duration(milliseconds: 250),
               itemBuilder: (context, itemIndex) {
-                return [const PageOne(), Container(), Container()][itemIndex];
+                return [
+                  const PageOne(),
+                  const PageTwo(),
+                  const PageThree()
+                ][itemIndex];
               }),
         ),
         Positioned(
@@ -64,7 +72,8 @@ class _OnboardingViewState extends State<OnboardingView> {
 
                     pageController.next();
                   } else {
-                    LocalStorage.addData(isOnboardingDone, false);
+                    LocalStorage.addData(isOnboardingDone, true);
+                    NavigatorKey.pushReplacement(const HomeView());
                   }
                 },
               ),

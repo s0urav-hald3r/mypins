@@ -1,8 +1,11 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mypins/config/colors.dart';
+import 'package:mypins/config/constants.dart';
 import 'package:mypins/config/images.dart';
 import 'package:mypins/utils/extension.dart';
+import 'package:mypins/utils/utility_functions.dart';
 
 class PageOne extends StatelessWidget {
   const PageOne({super.key});
@@ -57,7 +60,12 @@ class PageOne extends StatelessWidget {
                   fontSize: 12,
                   fontWeight: FontWeight.w400,
                   color: primaryColor,
+                  decoration: TextDecoration.underline,
                 ),
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () {
+                    UtilityFunctions.openUrl(termsOfUseUrl);
+                  },
               ),
               TextSpan(
                 text: ' and ',
@@ -73,7 +81,12 @@ class PageOne extends StatelessWidget {
                   fontSize: 12,
                   fontWeight: FontWeight.w400,
                   color: primaryColor,
+                  decoration: TextDecoration.underline,
                 ),
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () {
+                    UtilityFunctions.openUrl(privacyPolicyUrl);
+                  },
               )
             ]),
           ),

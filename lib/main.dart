@@ -12,6 +12,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mypins/controllers/home_controller.dart';
 import 'package:mypins/controllers/settings_controller.dart';
 import 'package:mypins/services/local_storage.dart';
+import 'package:mypins/views/home_view.dart';
 import 'package:mypins/views/onboarding_view.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:mypins/config/colors.dart';
@@ -108,7 +109,7 @@ class MyApp extends StatelessWidget {
       ),
       navigatorKey: NavigatorKey.navigatorKey,
       home: LocalStorage.getData(isOnboardingDone, KeyType.BOOL)
-          ? Container()
+          ? const HomeView()
           : const OnboardingView(),
     );
   }
