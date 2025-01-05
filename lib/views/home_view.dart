@@ -4,7 +4,9 @@ import 'package:get/get.dart';
 import 'package:mypins/config/colors.dart';
 import 'package:mypins/config/icons.dart';
 import 'package:mypins/controllers/home_controller.dart';
+import 'package:mypins/services/navigator_key.dart';
 import 'package:mypins/utils/extension.dart';
+import 'package:mypins/views/settings_view.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -19,7 +21,9 @@ class HomeView extends StatelessWidget {
           title: const Text('MyPins'),
           actions: [
             InkWell(
-              onTap: () {},
+              onTap: () {
+                NavigatorKey.push(const SettingsView());
+              },
               child: SvgPicture.asset(settingsIcon),
             ),
             SizedBox(width: 20.w),
