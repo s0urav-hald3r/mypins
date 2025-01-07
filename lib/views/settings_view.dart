@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mypins/components/settings/usage_box.dart';
 import 'package:mypins/config/colors.dart';
 import 'package:mypins/config/icons.dart';
 import 'package:mypins/services/navigator_key.dart';
@@ -46,7 +47,13 @@ class SettingsView extends StatelessWidget {
         ),
         SizedBox(height: 6.h),
         InkWell(
-          onTap: () {},
+          onTap: () {
+            showModalBottomSheet(
+                context: context,
+                builder: (context) {
+                  return const UsageBox();
+                });
+          },
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 13.h),
             child: Row(children: [
