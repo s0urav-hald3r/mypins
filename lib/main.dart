@@ -90,6 +90,8 @@ class MyApp extends StatelessWidget {
             fontSize: 16,
             fontWeight: FontWeight.bold,
           ),
+          shadowColor: Colors.transparent,
+          surfaceTintColor: Colors.transparent,
           actionsIconTheme: const IconThemeData(color: primaryColor),
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
