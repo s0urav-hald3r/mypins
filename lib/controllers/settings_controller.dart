@@ -71,8 +71,8 @@ class SettingsController extends GetxController {
         return weeklyPlanIndentifier;
       case Plan.MONTHLY:
         return monthlyPlanIndentifier;
-      case Plan.YEARLY:
-        return yearlyPlanIndentifier;
+      default:
+        return weeklyPlanIndentifier;
     }
   }
 

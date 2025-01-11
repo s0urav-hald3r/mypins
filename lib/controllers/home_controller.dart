@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-enum Plan { WEEKLY, MONTHLY, YEARLY }
+enum Plan { WEEKLY, MONTHLY, LIFETIME }
 
 class HomeController extends GetxController {
   static HomeController get instance => Get.find();
@@ -13,7 +13,7 @@ class HomeController extends GetxController {
   // Private variables
   final RxInt _onboardingIndex = 0.obs;
   final RxInt _homeIndex = 0.obs;
-  final Rx<Plan> _selectedPlan = Plan.WEEKLY.obs;
+  final Rx<Plan> _selectedPlan = Plan.LIFETIME.obs;
 
   // Getters
   int get onboardingIndex => _onboardingIndex.value;
