@@ -40,7 +40,7 @@ class HomeView extends StatelessWidget {
           shape: const CircleBorder(),
           onPressed: () {},
           backgroundColor: primaryColor,
-          child: SvgPicture.asset(downloadIcon),
+          child: SvgPicture.asset(addIcon),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: BottomAppBar(

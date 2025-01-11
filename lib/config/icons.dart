@@ -19,3 +19,6 @@ const premiumIcon = 'assets/icons/premium.svg';
 const checkIcon = 'assets/icons/check.svg';
 const crossIcon = 'assets/icons/cross.svg';
 const rewardIcon = 'assets/icons/reward.svg';
+const addIcon = 'assets/icons/add.svg';
+const noItemsIcon = 'assets/icons/no-items.svg';
+const roundedArrowIcon = 'assets/icons/rounded-arrow.svg';
