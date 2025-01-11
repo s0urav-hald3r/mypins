@@ -18,3 +18,4 @@ const widgetIcon = 'assets/icons/widget.svg';
 const premiumIcon = 'assets/icons/premium.svg';
 const checkIcon = 'assets/icons/check.svg';
 const crossIcon = 'assets/icons/cross.svg';
+const rewardIcon = 'assets/icons/reward.svg';

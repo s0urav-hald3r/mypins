@@ -5,6 +5,7 @@ import 'package:mypins/config/colors.dart';
 import 'package:mypins/config/icons.dart';
 import 'package:mypins/services/navigator_key.dart';
 import 'package:mypins/utils/extension.dart';
+import 'package:mypins/views/premium_view.dart';
 
 class SettingsView extends StatelessWidget {
   const SettingsView({super.key});
@@ -119,13 +120,15 @@ class SettingsView extends StatelessWidget {
         MenuItem(icon: termsIcon, title: 'Terms of Service', callBack: () {}),
         SizedBox(height: 7.h),
         InkWell(
-          onTap: () {},
+          onTap: () {
+            NavigatorKey.push(const PremiumView());
+          },
           child: Container(
             height: 56.h,
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(32),
-              color: const Color(0xFFFF9900),
+              color: secondaryColor,
             ),
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

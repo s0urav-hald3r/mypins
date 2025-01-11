@@ -8,7 +8,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:mypins/controllers/home_controller.dart';
 import 'package:mypins/controllers/settings_controller.dart';
 import 'package:mypins/services/local_storage.dart';
@@ -82,17 +81,17 @@ class MyApp extends StatelessWidget {
         splashColor: Colors.transparent,
         hoverColor: Colors.transparent,
         highlightColor: Colors.transparent,
-        appBarTheme: AppBarTheme(
+        appBarTheme: const AppBarTheme(
           backgroundColor: whiteColor,
           centerTitle: true,
-          titleTextStyle: GoogleFonts.plusJakartaSans(
+          titleTextStyle: TextStyle(
             color: primaryColor,
             fontSize: 16,
             fontWeight: FontWeight.bold,
           ),
           shadowColor: Colors.transparent,
           surfaceTintColor: Colors.transparent,
-          actionsIconTheme: const IconThemeData(color: primaryColor),
+          actionsIconTheme: IconThemeData(color: primaryColor),
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
@@ -103,7 +102,7 @@ class MyApp extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
-            textStyle: GoogleFonts.plusJakartaSans(
+            textStyle: const TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.bold,
             ),

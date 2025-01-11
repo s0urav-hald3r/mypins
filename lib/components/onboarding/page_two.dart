@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:mypins/config/colors.dart';
 import 'package:mypins/config/images.dart';
 import 'package:mypins/utils/extension.dart';
@@ -21,10 +20,10 @@ class PageTwo extends StatelessWidget {
             bottom: 95.h,
             child: RichText(
               textAlign: TextAlign.left,
-              text: TextSpan(children: [
+              text: const TextSpan(children: [
                 TextSpan(
                   text: 'Create',
-                  style: GoogleFonts.plusJakartaSans(
+                  style: TextStyle(
                     fontSize: 34,
                     fontWeight: FontWeight.w400,
                     color: blackColor,
@@ -32,7 +31,7 @@ class PageTwo extends StatelessWidget {
                 ),
                 TextSpan(
                   text: ' Collections\n',
-                  style: GoogleFonts.plusJakartaSans(
+                  style: TextStyle(
                     fontSize: 34,
                     fontWeight: FontWeight.bold,
                     color: primaryColor,
@@ -40,7 +39,7 @@ class PageTwo extends StatelessWidget {
                 ),
                 TextSpan(
                   text: 'and',
-                  style: GoogleFonts.plusJakartaSans(
+                  style: TextStyle(
                     fontSize: 34,
                     fontWeight: FontWeight.w400,
                     color: blackColor,
@@ -48,7 +47,7 @@ class PageTwo extends StatelessWidget {
                 ),
                 TextSpan(
                   text: ' Organize',
-                  style: GoogleFonts.plusJakartaSans(
+                  style: TextStyle(
                     fontSize: 34,
                     fontWeight: FontWeight.bold,
                     color: primaryColor,

@@ -4,6 +4,7 @@ import 'package:mypins/config/colors.dart';
 import 'package:mypins/config/icons.dart';
 import 'package:mypins/services/navigator_key.dart';
 import 'package:mypins/utils/extension.dart';
+import 'package:mypins/views/premium_view.dart';
 
 class UsageBox extends StatelessWidget {
   const UsageBox({super.key});
@@ -34,7 +35,7 @@ class UsageBox extends StatelessWidget {
                   color: whiteColor,
                   boxShadow: [
                     BoxShadow(
-                      color: offWhiteColor.withOpacity(.5),
+                      color: offWhiteColor.withOpacity(.25),
                       blurRadius: 5,
                     )
                   ]),
@@ -87,7 +88,9 @@ class UsageBox extends StatelessWidget {
           height: 52.h,
           child: ElevatedButton(
             child: const Text('Get Unlimited Now'),
-            onPressed: () {},
+            onPressed: () {
+              NavigatorKey.push(const PremiumView());
+            },
           ),
         ),
       ]),
@@ -104,7 +107,7 @@ class PointCard extends StatelessWidget {
     return SizedBox(
       width: MediaQuery.of(context).size.width / 2,
       child: Row(children: [
-        SizedBox(width: 20.w),
+        SizedBox(width: 25.w),
         SvgPicture.asset(checkIcon),
         SizedBox(width: 10.w),
         Text(

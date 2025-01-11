@@ -1,6 +1,5 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:mypins/config/colors.dart';
 import 'package:mypins/config/constants.dart';
 import 'package:mypins/config/images.dart';
@@ -19,10 +18,10 @@ class PageOne extends StatelessWidget {
         child: Column(children: [
           Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
             RichText(
-              text: TextSpan(children: [
+              text: const TextSpan(children: [
                 TextSpan(
                   text: 'Welcome\nto ',
-                  style: GoogleFonts.plusJakartaSans(
+                  style: TextStyle(
                     fontSize: 34,
                     fontWeight: FontWeight.w400,
                     color: blackColor,
@@ -30,7 +29,7 @@ class PageOne extends StatelessWidget {
                 ),
                 TextSpan(
                   text: 'MyPins.',
-                  style: GoogleFonts.plusJakartaSans(
+                  style: TextStyle(
                     fontSize: 34,
                     fontWeight: FontWeight.bold,
                     color: primaryColor,
@@ -46,9 +45,9 @@ class PageOne extends StatelessWidget {
           RichText(
             textAlign: TextAlign.center,
             text: TextSpan(children: [
-              TextSpan(
+              const TextSpan(
                 text: 'By tapping “Continue” you agree to MyPins\n',
-                style: GoogleFonts.plusJakartaSans(
+                style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w400,
                   color: blackColor,
@@ -56,7 +55,7 @@ class PageOne extends StatelessWidget {
               ),
               TextSpan(
                 text: 'Terms of Service',
-                style: GoogleFonts.plusJakartaSans(
+                style: const TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w400,
                   color: primaryColor,
@@ -67,9 +66,9 @@ class PageOne extends StatelessWidget {
                     UtilityFunctions.openUrl(termsOfUseUrl);
                   },
               ),
-              TextSpan(
+              const TextSpan(
                 text: ' and ',
-                style: GoogleFonts.plusJakartaSans(
+                style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w400,
                   color: blackColor,
@@ -77,7 +76,7 @@ class PageOne extends StatelessWidget {
               ),
               TextSpan(
                 text: 'Privacy Policy',
-                style: GoogleFonts.plusJakartaSans(
+                style: const TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w400,
                   color: primaryColor,
