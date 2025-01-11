@@ -6,6 +6,8 @@ import 'package:mypins/config/icons.dart';
 import 'package:mypins/controllers/home_controller.dart';
 import 'package:mypins/services/navigator_key.dart';
 import 'package:mypins/utils/extension.dart';
+import 'package:mypins/views/collection_view.dart';
+import 'package:mypins/views/pin_save_view.dart';
 import 'package:mypins/views/settings_view.dart';
 
 class HomeView extends StatelessWidget {
@@ -28,6 +30,11 @@ class HomeView extends StatelessWidget {
             ),
             SizedBox(width: 20.w),
           ],
+        ),
+        body: PageView(
+          controller: controller.pageController,
+          physics: const NeverScrollableScrollPhysics(),
+          children: const [PinSaveView(), CollectionView()],
         ),
         floatingActionButton: FloatingActionButton(
           shape: const CircleBorder(),
