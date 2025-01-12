@@ -6,9 +6,26 @@ import 'package:mypins/config/colors.dart';
 import 'package:mypins/config/icons.dart';
 import 'package:mypins/services/navigator_key.dart';
 import 'package:mypins/utils/extension.dart';
+import 'package:mypins/views/show_image_view.dart';
 
-class OpenCollectionView extends StatelessWidget {
+class OpenCollectionView extends StatefulWidget {
   const OpenCollectionView({super.key});
+
+  @override
+  State<OpenCollectionView> createState() => _OpenCollectionViewState();
+}
+
+class _OpenCollectionViewState extends State<OpenCollectionView> {
+  final imageLists = [
+    'https://cdn.pixabay.com/photo/2024/10/03/10/25/dive-9093321_1280.jpg',
+    'https://cdn.pixabay.com/photo/2024/10/01/14/04/mother-9088547_1280.jpg',
+    'https://cdn.pixabay.com/photo/2024/12/28/01/27/ai-generated-9295105_1280.jpg',
+    'https://cdn.pixabay.com/photo/2023/12/11/09/36/whisky-8443153_1280.jpg',
+    'https://cdn.pixabay.com/photo/2023/11/08/04/30/girl-8373900_1280.jpg',
+    'https://cdn.pixabay.com/photo/2024/12/13/14/45/real-estate-9265386_1280.jpg',
+    'https://cdn.pixabay.com/photo/2024/05/06/05/57/butterfly-8742569_1280.jpg',
+    // Add more image URLs
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +76,7 @@ class OpenCollectionView extends StatelessWidget {
           SizedBox(height: 25.h),
           Expanded(
             child: MasonryGridView.builder(
-                itemCount: 7,
+                itemCount: imageLists.length,
                 mainAxisSpacing: 10.h,
                 crossAxisSpacing: 10.w,
                 physics: const NeverScrollableScrollPhysics(),
@@ -70,19 +87,15 @@ class OpenCollectionView extends StatelessWidget {
                   crossAxisCount: 2,
                 ),
                 itemBuilder: (count, index) {
-                  return ClipRRect(
-                    borderRadius: BorderRadius.circular(15),
-                    child: CachedNetworkImage(
-                        imageUrl: [
-                      'https://cdn.pixabay.com/photo/2024/10/03/10/25/dive-9093321_1280.jpg',
-                      'https://cdn.pixabay.com/photo/2024/10/01/14/04/mother-9088547_1280.jpg',
-                      'https://cdn.pixabay.com/photo/2024/12/28/01/27/ai-generated-9295105_1280.jpg',
-                      'https://cdn.pixabay.com/photo/2023/12/11/09/36/whisky-8443153_1280.jpg',
-                      'https://cdn.pixabay.com/photo/2023/11/08/04/30/girl-8373900_1280.jpg',
-                      'https://cdn.pixabay.com/photo/2024/12/13/14/45/real-estate-9265386_1280.jpg',
-                      'https://cdn.pixabay.com/photo/2024/05/06/05/57/butterfly-8742569_1280.jpg',
-                      // Add more image URLs
-                    ][index]),
+                  return InkWell(
+                    onTap: () {
+                      NavigatorKey.push(
+                          ShowImageView(imageUrl: imageLists[index]));
+                    },
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(15),
+                      child: CachedNetworkImage(imageUrl: imageLists[index]),
+                    ),
                   );
                 }),
           ),
