@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mypins/config/colors.dart';
 import 'package:mypins/config/icons.dart';
+import 'package:mypins/services/navigator_key.dart';
 import 'package:mypins/utils/extension.dart';
+import 'package:mypins/views/open_collection_view.dart';
 
 class CollectionView extends StatelessWidget {
   const CollectionView({super.key});
@@ -28,26 +30,40 @@ class FullCollectionView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Padding(
-        padding: EdgeInsets.only(left: 20.w),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          const Text(
-            'Nature Collections',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 14,
-              color: blackColor,
-            ),
-          ),
-          const Text(
-            '7 Saved',
-            style: TextStyle(
-              fontWeight: FontWeight.w400,
-              fontSize: 12,
-              color: Color(0xFF4B4B4B),
-            ),
-          ),
-          SizedBox(height: 15.h),
-        ]),
+        padding: EdgeInsets.symmetric(horizontal: 20.w),
+        child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                const Text(
+                  'Nature Collections',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                    color: blackColor,
+                  ),
+                ),
+                const Text(
+                  '7 Saved',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w400,
+                    fontSize: 12,
+                    color: Color(0xFF4B4B4B),
+                  ),
+                ),
+                SizedBox(height: 15.h),
+              ]),
+              Container(
+                width: 40.w,
+                height: 30.h,
+                decoration: BoxDecoration(
+                  color: primaryColor,
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Center(child: SvgPicture.asset(menuIcon)),
+              )
+            ]),
       ),
       SizedBox(
         height: 100.h,
@@ -58,18 +74,23 @@ class FullCollectionView extends StatelessWidget {
             itemCount: 5,
             shrinkWrap: true,
             itemBuilder: (context, index) {
-              return Container(
-                width: 80.w,
-                height: 100.h,
-                margin: EdgeInsets.only(right: 7.5.w),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                clipBehavior: Clip.antiAlias,
-                child: CachedNetworkImage(
-                  imageUrl:
-                      'https://cdn.pixabay.com/photo/2024/10/03/10/25/dive-9093321_1280.jpg',
-                  fit: BoxFit.cover,
+              return InkWell(
+                onTap: () {
+                  NavigatorKey.push(const OpenCollectionView());
+                },
+                child: Container(
+                  width: 80.w,
+                  height: 100.h,
+                  margin: EdgeInsets.only(right: 7.5.w),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  clipBehavior: Clip.antiAlias,
+                  child: CachedNetworkImage(
+                    imageUrl:
+                        'https://cdn.pixabay.com/photo/2024/10/03/10/25/dive-9093321_1280.jpg',
+                    fit: BoxFit.cover,
+                  ),
                 ),
               );
             }),
