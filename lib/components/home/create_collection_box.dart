@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mypins/config/colors.dart';
 import 'package:mypins/config/icons.dart';
+import 'package:mypins/controllers/home_controller.dart';
 import 'package:mypins/services/navigator_key.dart';
 import 'package:mypins/utils/extension.dart';
 
@@ -11,6 +12,8 @@ class CreateCollectionBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = HomeController.instance;
+
     return Container(
       width: MediaQuery.of(context).size.width,
       padding: EdgeInsets.symmetric(horizontal: 25.w),
@@ -60,6 +63,7 @@ class CreateCollectionBox extends StatelessWidget {
         SizedBox(
           height: 50.h,
           child: CupertinoTextField(
+            controller: controller.createCollection,
             decoration: BoxDecoration(
               color: const Color(0xFFEEEEEE),
               borderRadius: BorderRadius.circular(15),
@@ -89,7 +93,9 @@ class CreateCollectionBox extends StatelessWidget {
           height: 52.h,
           child: ElevatedButton(
             child: const Text('CREATE COLLECTION'),
-            onPressed: () {},
+            onPressed: () {
+              controller.createCollectionModel();
+            },
           ),
         ),
       ]),

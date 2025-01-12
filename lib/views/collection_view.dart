@@ -1,8 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:mypins/config/colors.dart';
 import 'package:mypins/config/icons.dart';
+import 'package:mypins/controllers/home_controller.dart';
+import 'package:mypins/models/collection_model.dart';
 import 'package:mypins/services/navigator_key.dart';
 import 'package:mypins/utils/extension.dart';
 import 'package:mypins/views/open_collection_view.dart';
@@ -12,13 +15,25 @@ class CollectionView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = HomeController.instance;
+
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
-      child: ListView(children: const [
-        FullCollectionView(),
-        FullCollectionView(),
-      ]),
+      child: Obx(() {
+        if (controller.collections.isEmpty) {
+          return const EmptyCollectionView();
+        }
+
+        return ListView(
+            children: controller.collections.map((collection) {
+          if (collection.images.isEmpty) {
+            return InitialCollectionView(model: collection);
+          }
+
+          return const FullCollectionView();
+        }).toList());
+      }),
     );
   }
 }
@@ -101,7 +116,8 @@ class FullCollectionView extends StatelessWidget {
 }
 
 class InitialCollectionView extends StatelessWidget {
-  const InitialCollectionView({super.key});
+  final CollectionModel model;
+  const InitialCollectionView({super.key, required this.model});
 
   @override
   Widget build(BuildContext context) {
@@ -109,17 +125,17 @@ class InitialCollectionView extends StatelessWidget {
       Padding(
         padding: EdgeInsets.only(left: 20.w),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          const Text(
-            'Empty collection',
-            style: TextStyle(
+          Text(
+            model.name ?? '',
+            style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 14,
               color: blackColor,
             ),
           ),
-          const Text(
-            '0 Saved',
-            style: TextStyle(
+          Text(
+            '${model.images.length} Saved',
+            style: const TextStyle(
               fontWeight: FontWeight.w400,
               fontSize: 12,
               color: Color(0xFF4B4B4B),
@@ -167,6 +183,7 @@ class InitialCollectionView extends StatelessWidget {
               );
             }),
       ),
+      SizedBox(height: 20.h)
     ]);
   }
 }
