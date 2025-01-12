@@ -16,7 +16,12 @@ class CreateCollectionBox extends StatelessWidget {
 
     return Container(
       width: MediaQuery.of(context).size.width,
-      padding: EdgeInsets.symmetric(horizontal: 25.w),
+      padding: EdgeInsets.fromLTRB(
+        25.w,
+        0,
+        25.w,
+        MediaQuery.of(context).viewInsets.bottom,
+      ),
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(16),

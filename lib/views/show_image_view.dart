@@ -36,12 +36,12 @@ class ShowImageView extends StatelessWidget {
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.w),
         child: Column(children: [
-          const Spacer(flex: 2),
+          const Spacer(),
           ClipRRect(
             borderRadius: BorderRadius.circular(15),
             child: CachedNetworkImage(imageUrl: imageUrl),
           ),
-          SizedBox(height: 50.h),
+          const Spacer(),
           Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
             CircleAvatar(
               radius: 25,
@@ -64,7 +64,7 @@ class ShowImageView extends StatelessWidget {
               child: SvgPicture.asset(optionsIcon),
             ),
           ]),
-          const Spacer(flex: 2),
+          SizedBox(height: MediaQuery.of(context).padding.bottom),
         ]),
       ),
     );

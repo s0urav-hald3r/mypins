@@ -23,6 +23,7 @@ const addIcon = 'assets/icons/add.svg';
 const menuIcon = 'assets/icons/menu.svg';
 const pinIcon = 'assets/icons/pin.svg';
 const sendIcon = 'assets/icons/send.svg';
+const pasteIcon = 'assets/icons/paste.svg';
 const bookmarkIcon = 'assets/icons/bookmark.svg';
 const optionsIcon = 'assets/icons/options.svg';
 const noItemsIcon = 'assets/icons/no-items.svg';

@@ -21,6 +21,7 @@ class HomeView extends StatelessWidget {
 
     return Obx(() {
       return Scaffold(
+        resizeToAvoidBottomInset: true,
         appBar: AppBar(
           title: const Text('MyPins'),
           actions: [
@@ -43,6 +44,7 @@ class HomeView extends StatelessWidget {
           onPressed: () {
             showModalBottomSheet(
                 context: context,
+                isScrollControlled: true,
                 builder: (context) {
                   return const [
                     PinSaveBox(),
