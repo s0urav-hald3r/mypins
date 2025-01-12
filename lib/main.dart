@@ -100,7 +100,7 @@ class MyApp extends StatelessWidget {
             shadowColor: Colors.transparent,
             minimumSize: Size.zero,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(15),
             ),
             textStyle: const TextStyle(
               fontSize: 14,

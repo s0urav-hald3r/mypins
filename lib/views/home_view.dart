@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:mypins/components/home/create_collection_box.dart';
+import 'package:mypins/components/home/pin_save_box.dart';
 import 'package:mypins/config/colors.dart';
 import 'package:mypins/config/icons.dart';
 import 'package:mypins/controllers/home_controller.dart';
@@ -38,9 +40,20 @@ class HomeView extends StatelessWidget {
         ),
         floatingActionButton: FloatingActionButton(
           shape: const CircleBorder(),
-          onPressed: () {},
+          onPressed: () {
+            showModalBottomSheet(
+                context: context,
+                builder: (context) {
+                  return const [
+                    PinSaveBox(),
+                    CreateCollectionBox()
+                  ][controller.homeIndex];
+                });
+          },
           backgroundColor: primaryColor,
-          child: SvgPicture.asset(addIcon),
+          child: SvgPicture.asset(
+            [downloadIcon, addIcon][controller.homeIndex],
+          ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: BottomAppBar(
