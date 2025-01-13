@@ -67,6 +67,7 @@ class HomeController extends GetxController {
   final RxInt _savedPinsCount = 0.obs;
   final Rx<Plan> _selectedPlan = Plan.LIFETIME.obs;
   final RxList<PinModel> _savedPins = <PinModel>[].obs;
+  final RxList<PinModel> _selectedPins = <PinModel>[].obs;
   final RxList<CollectionModel> _collections = <CollectionModel>[].obs;
   // Getters
   int get onboardingIndex => _onboardingIndex.value;
@@ -74,6 +75,7 @@ class HomeController extends GetxController {
   int get savedPinsCount => _savedPinsCount.value;
   Plan get selectedPlan => _selectedPlan.value;
   List<PinModel> get savedPins => _savedPins;
+  List<PinModel> get selectedPins => _selectedPins;
   List<CollectionModel> get collections => _collections;
 
   // Setters
@@ -82,6 +84,7 @@ class HomeController extends GetxController {
   set savedPinsCount(value) => _savedPinsCount.value = value;
   set selectedPlan(value) => _selectedPlan.value = value;
   set savedPins(value) => _savedPins.value = value;
+  set selectedPins(value) => _selectedPins.value = value;
   set collections(value) => _collections.value = value;
 
   Future<void> createCollectionModel() async {
@@ -127,5 +130,31 @@ class HomeController extends GetxController {
     if (clipboardData != null) {
       pinUrl.text = clipboardData.text ?? '';
     }
+  }
+
+  Future<void> selectPin(PinModel pin) async {
+    int index = savedPins.indexWhere((ele) => pin.imageUrl == ele.imageUrl);
+    if (index != -1) {
+      selectedPins.add(pin);
+      savedPins[index] = pin.copyWith(isSelected: true);
+    }
+  }
+
+  Future<void> removePin(PinModel pin) async {
+    int index = savedPins.indexWhere((ele) => pin.imageUrl == ele.imageUrl);
+    if (index != -1) {
+      savedPins[index] = pin.copyWith(isSelected: false);
+      selectedPins.removeWhere((ele) => pin.imageUrl == ele.imageUrl);
+    }
+  }
+
+  Future<void> addPinsToCollection(String collectionTag) async {
+    final index = collections.indexWhere((ele) => ele.name == collectionTag);
+    if (index != -1) {
+      collections[index] = collections[index]
+          .copyWith(images: selectedPins.map((pin) => pin.imageUrl!).toList());
+    }
+    await addCollectionsToLocal();
+    NavigatorKey.pop();
   }
 }

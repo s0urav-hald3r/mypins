@@ -1,7 +1,10 @@
+import 'dart:math';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:mypins/components/home/show_pins_list.dart';
 import 'package:mypins/config/colors.dart';
 import 'package:mypins/config/icons.dart';
 import 'package:mypins/controllers/home_controller.dart';
@@ -31,7 +34,7 @@ class CollectionView extends StatelessWidget {
             return InitialCollectionView(model: collection);
           }
 
-          return const FullCollectionView();
+          return FullCollectionView(model: collection);
         }).toList());
       }),
     );
@@ -39,7 +42,8 @@ class CollectionView extends StatelessWidget {
 }
 
 class FullCollectionView extends StatelessWidget {
-  const FullCollectionView({super.key});
+  final CollectionModel model;
+  const FullCollectionView({super.key, required this.model});
 
   @override
   Widget build(BuildContext context) {
@@ -51,17 +55,17 @@ class FullCollectionView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                const Text(
-                  'Nature Collections',
-                  style: TextStyle(
+                Text(
+                  model.name ?? '',
+                  style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 14,
                     color: blackColor,
                   ),
                 ),
-                const Text(
-                  '7 Saved',
-                  style: TextStyle(
+                Text(
+                  '${model.images.length} Saved',
+                  style: const TextStyle(
                     fontWeight: FontWeight.w400,
                     fontSize: 12,
                     color: Color(0xFF4B4B4B),
@@ -86,12 +90,12 @@ class FullCollectionView extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             padding: EdgeInsets.only(left: 20.w),
             physics: const NeverScrollableScrollPhysics(),
-            itemCount: 5,
+            itemCount: min(5, model.images.length),
             shrinkWrap: true,
             itemBuilder: (context, index) {
               return InkWell(
                 onTap: () {
-                  NavigatorKey.push(const OpenCollectionView());
+                  NavigatorKey.push(OpenCollectionView(collection: model));
                 },
                 child: Container(
                   width: 80.w,
@@ -102,8 +106,7 @@ class FullCollectionView extends StatelessWidget {
                   ),
                   clipBehavior: Clip.antiAlias,
                   child: CachedNetworkImage(
-                    imageUrl:
-                        'https://cdn.pixabay.com/photo/2024/10/03/10/25/dive-9093321_1280.jpg',
+                    imageUrl: model.images[index],
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -155,7 +158,16 @@ class InitialCollectionView extends StatelessWidget {
             itemBuilder: (context, index) {
               return InkWell(
                 onTap: () {
-                  if (index == 0) {}
+                  if (index == 0) {
+                    showModalBottomSheet(
+                        context: context,
+                        isDismissible: false,
+                        isScrollControlled: true,
+                        builder: (context) {
+                          HomeController.instance.selectedPins.clear();
+                          return ShowPinsList(collectionTag: model.name!);
+                        });
+                  }
                 },
                 child: Container(
                   width: 80.w,

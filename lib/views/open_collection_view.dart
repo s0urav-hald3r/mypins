@@ -3,14 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mypins/config/colors.dart';
-import 'package:mypins/config/constants.dart';
 import 'package:mypins/config/icons.dart';
+import 'package:mypins/models/collection_model.dart';
 import 'package:mypins/services/navigator_key.dart';
 import 'package:mypins/utils/extension.dart';
 import 'package:mypins/views/show_image_view.dart';
 
 class OpenCollectionView extends StatelessWidget {
-  const OpenCollectionView({super.key});
+  final CollectionModel collection;
+  const OpenCollectionView({super.key, required this.collection});
 
   @override
   Widget build(BuildContext context) {
@@ -39,19 +40,19 @@ class OpenCollectionView extends StatelessWidget {
       body: SizedBox(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        child: ListView(children: [
-          const Column(children: [
+        child: Column(children: [
+          Column(children: [
             Text(
-              'Nature Collections',
-              style: TextStyle(
+              collection.name ?? '',
+              style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 14,
                 color: blackColor,
               ),
             ),
             Text(
-              '7 Saved',
-              style: TextStyle(
+              '${collection.images.length} Saved',
+              style: const TextStyle(
                 fontWeight: FontWeight.w400,
                 fontSize: 12,
                 color: Color(0xFF4B4B4B),
@@ -61,10 +62,9 @@ class OpenCollectionView extends StatelessWidget {
           SizedBox(height: 25.h),
           Expanded(
             child: MasonryGridView.builder(
-                itemCount: imageLists.length,
+                itemCount: collection.images.length,
                 mainAxisSpacing: 10.h,
                 crossAxisSpacing: 10.w,
-                physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 padding: EdgeInsets.symmetric(horizontal: 20.w),
                 gridDelegate:
@@ -75,11 +75,13 @@ class OpenCollectionView extends StatelessWidget {
                   return InkWell(
                     onTap: () {
                       NavigatorKey.push(
-                          ShowImageView(imageUrl: imageLists[index]));
+                          ShowImageView(imageUrl: collection.images[index]));
                     },
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(15),
-                      child: CachedNetworkImage(imageUrl: imageLists[index]),
+                      child: CachedNetworkImage(
+                        imageUrl: collection.images[index],
+                      ),
                     ),
                   );
                 }),
