@@ -40,7 +40,7 @@ class OpenCollectionView extends StatelessWidget {
       body: SizedBox(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        child: Column(children: [
+        child: ListView(children: [
           Column(children: [
             Text(
               collection.name ?? '',
@@ -60,32 +60,31 @@ class OpenCollectionView extends StatelessWidget {
             ),
           ]),
           SizedBox(height: 25.h),
-          Expanded(
-            child: MasonryGridView.builder(
-                itemCount: collection.images.length,
-                mainAxisSpacing: 10.h,
-                crossAxisSpacing: 10.w,
-                shrinkWrap: true,
-                padding: EdgeInsets.symmetric(horizontal: 20.w),
-                gridDelegate:
-                    const SliverSimpleGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                ),
-                itemBuilder: (count, index) {
-                  return InkWell(
-                    onTap: () {
-                      NavigatorKey.push(
-                          ShowImageView(imageUrl: collection.images[index]));
-                    },
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(15),
-                      child: CachedNetworkImage(
-                        imageUrl: collection.images[index],
-                      ),
+          MasonryGridView.builder(
+              itemCount: collection.images.length,
+              mainAxisSpacing: 10.h,
+              crossAxisSpacing: 10.w,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              padding: EdgeInsets.symmetric(horizontal: 20.w),
+              gridDelegate:
+                  const SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+              ),
+              itemBuilder: (count, index) {
+                return InkWell(
+                  onTap: () {
+                    NavigatorKey.push(
+                        ShowImageView(imageUrl: collection.images[index]));
+                  },
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(15),
+                    child: CachedNetworkImage(
+                      imageUrl: collection.images[index],
                     ),
-                  );
-                }),
-          ),
+                  ),
+                );
+              }),
         ]),
       ),
     );
