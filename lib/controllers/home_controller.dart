@@ -121,7 +121,7 @@ class HomeController extends GetxController {
     String jsonString =
         jsonEncode(savedPins.map((model) => model.toJson()).toList());
 
-    LocalStorage.addData(savedPinsCon, jsonString);
+    await LocalStorage.addData(savedPinsCon, jsonString);
   }
 
   Future<void> pasteText() async {
@@ -132,7 +132,7 @@ class HomeController extends GetxController {
     }
   }
 
-  Future<void> selectPin(PinModel pin) async {
+  void selectPin(PinModel pin) {
     int index = savedPins.indexWhere((ele) => pin.imageUrl == ele.imageUrl);
     if (index != -1) {
       selectedPins.add(pin);
@@ -140,7 +140,7 @@ class HomeController extends GetxController {
     }
   }
 
-  Future<void> removePin(PinModel pin) async {
+  void removePin(PinModel pin) {
     int index = savedPins.indexWhere((ele) => pin.imageUrl == ele.imageUrl);
     if (index != -1) {
       savedPins[index] = pin.copyWith(isSelected: false);
@@ -150,11 +150,21 @@ class HomeController extends GetxController {
 
   Future<void> addPinsToCollection(String collectionTag) async {
     final index = collections.indexWhere((ele) => ele.name == collectionTag);
+
     if (index != -1) {
-      collections[index] = collections[index]
-          .copyWith(images: selectedPins.map((pin) => pin.imageUrl!).toList());
+      collections[index] = collections[index].copyWith(images: [
+        ...collections[index].images,
+        ...selectedPins.map((pin) => pin.imageUrl!)
+      ]);
     }
     await addCollectionsToLocal();
+    NavigatorKey.pop();
+  }
+
+  Future<void> deleteCollection(String collectionTag) async {
+    collections.removeWhere((ele) => ele.name == collectionTag);
+    await addCollectionsToLocal();
+
     NavigatorKey.pop();
   }
 }

@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:mypins/components/home/collection_options.dart';
 import 'package:mypins/components/home/show_pins_list.dart';
 import 'package:mypins/config/colors.dart';
 import 'package:mypins/config/icons.dart';
@@ -73,14 +74,24 @@ class FullCollectionView extends StatelessWidget {
                 ),
                 SizedBox(height: 15.h),
               ]),
-              Container(
-                width: 40.w,
-                height: 30.h,
-                decoration: BoxDecoration(
-                  color: primaryColor,
-                  borderRadius: BorderRadius.circular(15),
+              InkWell(
+                onTap: () {
+                  showModalBottomSheet(
+                      context: context,
+                      isDismissible: false,
+                      builder: (context) {
+                        return CollectionOptions(model: model);
+                      });
+                },
+                child: Container(
+                  width: 40.w,
+                  height: 30.h,
+                  decoration: BoxDecoration(
+                    color: primaryColor,
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Center(child: SvgPicture.asset(menuIcon)),
                 ),
-                child: Center(child: SvgPicture.asset(menuIcon)),
               )
             ]),
       ),
