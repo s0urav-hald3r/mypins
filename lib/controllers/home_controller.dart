@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:mypins/config/constants.dart';
 import 'package:mypins/models/collection_model.dart';
+import 'package:mypins/models/pin_model.dart';
 import 'package:mypins/services/local_storage.dart';
 import 'package:mypins/services/navigator_key.dart';
 
@@ -37,7 +38,7 @@ class HomeController extends GetxController {
       final jsonBody = jsonDecode(jsonList);
 
       for (var json in jsonBody) {
-        _savedPins.add(json);
+        _savedPins.add(PinModel.fromJson(json));
       }
     }
   }
@@ -65,14 +66,14 @@ class HomeController extends GetxController {
   final RxInt _homeIndex = 0.obs;
   final RxInt _savedPinsCount = 0.obs;
   final Rx<Plan> _selectedPlan = Plan.LIFETIME.obs;
-  final RxList<String> _savedPins = <String>[].obs;
+  final RxList<PinModel> _savedPins = <PinModel>[].obs;
   final RxList<CollectionModel> _collections = <CollectionModel>[].obs;
   // Getters
   int get onboardingIndex => _onboardingIndex.value;
   int get homeIndex => _homeIndex.value;
   int get savedPinsCount => _savedPinsCount.value;
   Plan get selectedPlan => _selectedPlan.value;
-  List<String> get savedPins => _savedPins;
+  List<PinModel> get savedPins => _savedPins;
   List<CollectionModel> get collections => _collections;
 
   // Setters
@@ -103,16 +104,19 @@ class HomeController extends GetxController {
   Future<void> addPin() async {
     savedPinsCount += 1;
     await LocalStorage.addData(savedPinsCountCon, savedPinsCount);
-    final url = pinUrl.text.trim();
 
-    _savedPins.add(url);
+    final url = pinUrl.text.trim();
+    final newPin = PinModel(imageUrl: url, isSelected: false);
+
+    _savedPins.add(newPin);
     pinUrl.clear();
     await addPinsToLocal();
     NavigatorKey.pop();
   }
 
   Future<void> addPinsToLocal() async {
-    String jsonString = jsonEncode(savedPins);
+    String jsonString =
+        jsonEncode(savedPins.map((model) => model.toJson()).toList());
 
     LocalStorage.addData(savedPinsCon, jsonString);
   }

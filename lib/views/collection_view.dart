@@ -153,33 +153,38 @@ class InitialCollectionView extends StatelessWidget {
             itemCount: 5,
             shrinkWrap: true,
             itemBuilder: (context, index) {
-              return Container(
-                width: 80.w,
-                height: 100.h,
-                margin: EdgeInsets.only(right: 7.5.w),
-                decoration: BoxDecoration(
-                  color: index == 0 ? primaryColor : const Color(0xFFDFDEE3),
-                  borderRadius: BorderRadius.circular(15),
+              return InkWell(
+                onTap: () {
+                  if (index == 0) {}
+                },
+                child: Container(
+                  width: 80.w,
+                  height: 100.h,
+                  margin: EdgeInsets.only(right: 7.5.w),
+                  decoration: BoxDecoration(
+                    color: index == 0 ? primaryColor : const Color(0xFFDFDEE3),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: index == 0
+                      ? Center(
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SvgPicture.asset(addIcon),
+                                SizedBox(height: 10.h),
+                                const Text(
+                                  'Add\nCollection',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 9,
+                                    color: whiteColor,
+                                  ),
+                                )
+                              ]),
+                        )
+                      : const SizedBox.shrink(),
                 ),
-                child: index == 0
-                    ? Center(
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SvgPicture.asset(addIcon),
-                              SizedBox(height: 10.h),
-                              const Text(
-                                'Add\nCollection',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 9,
-                                  color: whiteColor,
-                                ),
-                              )
-                            ]),
-                      )
-                    : const SizedBox.shrink(),
               );
             }),
       ),
