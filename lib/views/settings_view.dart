@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mypins/components/settings/usage_box.dart';
 import 'package:mypins/config/colors.dart';
 import 'package:mypins/config/icons.dart';
+import 'package:mypins/controllers/home_controller.dart';
 import 'package:mypins/services/navigator_key.dart';
 import 'package:mypins/utils/extension.dart';
 import 'package:mypins/views/premium_view.dart';
@@ -12,6 +13,8 @@ class SettingsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = HomeController.instance;
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -69,9 +72,9 @@ class SettingsView extends StatelessWidget {
                 ),
               ),
               const Spacer(),
-              const Text(
-                '0/20 Saves Usage',
-                style: TextStyle(
+              Text(
+                '${controller.savedPinsCount}/20 Saves Usage',
+                style: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
                   color: primaryColor,

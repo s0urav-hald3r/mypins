@@ -8,6 +8,7 @@ import 'package:mypins/config/icons.dart';
 import 'package:mypins/controllers/home_controller.dart';
 import 'package:mypins/services/navigator_key.dart';
 import 'package:mypins/utils/extension.dart';
+import 'package:mypins/views/premium_view.dart';
 import 'package:mypins/views/show_image_view.dart';
 
 class PinSaveView extends StatelessWidget {
@@ -25,29 +26,80 @@ class PinSaveView extends StatelessWidget {
           return const EmptySavedPinView();
         }
 
-        return MasonryGridView.builder(
-            itemCount: controller.savedPins.length,
-            mainAxisSpacing: 10.h,
-            crossAxisSpacing: 10.w,
-            shrinkWrap: true,
+        return Column(children: [
+          Container(
+            color: Colors.transparent,
+            margin: EdgeInsets.only(bottom: 20.h),
             padding: EdgeInsets.symmetric(horizontal: 20.w),
-            gridDelegate: const SliverSimpleGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-            ),
-            itemBuilder: (count, index) {
-              return InkWell(
-                onTap: () {
-                  NavigatorKey.push(
-                    ShowImageView(imageUrl: controller.savedPins[index]),
-                  );
-                },
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(15),
-                  child:
-                      CachedNetworkImage(imageUrl: controller.savedPins[index]),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    '${controller.savedPinsCount}/20 Saves Usage',
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: primaryColor,
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      NavigatorKey.push(const PremiumView());
+                    },
+                    child: Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+                      decoration: BoxDecoration(
+                        color: secondaryColor,
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Row(children: [
+                        SvgPicture.asset(
+                          premiumIcon,
+                          width: 15.w,
+                          color: whiteColor,
+                        ),
+                        SizedBox(width: 5.w),
+                        const Text(
+                          'Get Unlimited',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                            color: whiteColor,
+                          ),
+                        ),
+                      ]),
+                    ),
+                  )
+                ]),
+          ),
+          Expanded(
+            child: MasonryGridView.builder(
+                itemCount: controller.savedPins.length,
+                mainAxisSpacing: 10.h,
+                crossAxisSpacing: 10.w,
+                padding: EdgeInsets.symmetric(horizontal: 20.w),
+                shrinkWrap: true,
+                gridDelegate:
+                    const SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
                 ),
-              );
-            });
+                itemBuilder: (count, index) {
+                  return InkWell(
+                    onTap: () {
+                      NavigatorKey.push(
+                        ShowImageView(imageUrl: controller.savedPins[index]),
+                      );
+                    },
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(15),
+                      child: CachedNetworkImage(
+                          imageUrl: controller.savedPins[index]),
+                    ),
+                  );
+                }),
+          )
+        ]);
       }),
     );
   }
