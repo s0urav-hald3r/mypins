@@ -69,8 +69,10 @@ class CollectionOptions extends StatelessWidget {
                   return ShowPinsList(collectionTag: model.name!);
                 });
           },
-          child: const Row(children: [
-            Text(
+          child: Row(children: [
+            const Icon(Icons.add, size: 20),
+            SizedBox(width: 7.5.w),
+            const Text(
               'Add Pins to Collection',
               style: TextStyle(
                 fontWeight: FontWeight.w500,
@@ -85,8 +87,10 @@ class CollectionOptions extends StatelessWidget {
           onTap: () {
             controller.deleteCollection(model.name!);
           },
-          child: const Row(children: [
-            Text(
+          child: Row(children: [
+            const Icon(Icons.delete, size: 20),
+            SizedBox(width: 7.5.w),
+            const Text(
               'Delete Collection',
               style: TextStyle(
                 fontWeight: FontWeight.w500,
