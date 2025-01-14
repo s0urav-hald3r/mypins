@@ -26,5 +26,7 @@ const sendIcon = 'assets/icons/send.svg';
 const pasteIcon = 'assets/icons/paste.svg';
 const bookmarkIcon = 'assets/icons/bookmark.svg';
 const optionsIcon = 'assets/icons/options.svg';
+const addToCIcon = 'assets/icons/addToC.svg';
+const sendPinIcon = 'assets/icons/sendPin.svg';
 const noItemsIcon = 'assets/icons/no-items.svg';
 const roundedArrowIcon = 'assets/icons/rounded-arrow.svg';

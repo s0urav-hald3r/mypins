@@ -78,14 +78,13 @@ class FullCollectionView extends StatelessWidget {
                 onTap: () {
                   showModalBottomSheet(
                       context: context,
-                      isDismissible: false,
                       builder: (context) {
                         return CollectionOptions(model: model);
                       });
                 },
                 child: Container(
                   width: 40.w,
-                  height: 30.h,
+                  height: 35.h,
                   decoration: BoxDecoration(
                     color: primaryColor,
                     borderRadius: BorderRadius.circular(15),

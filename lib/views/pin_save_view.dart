@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:mypins/components/home/pin_options.dart';
 import 'package:mypins/config/colors.dart';
 import 'package:mypins/config/icons.dart';
 import 'package:mypins/controllers/home_controller.dart';
@@ -96,10 +97,80 @@ class PinSaveView extends StatelessWidget {
                     },
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(15),
-                      child: CachedNetworkImage(
-                        imageUrl: controller.savedPins[index].imageUrl ??
-                            'https://www.huber-online.com/daisy_website_files/_processed_/8/0/csm_no-image_d5c4ab1322.jpg',
-                      ),
+                      child: Stack(children: [
+                        CachedNetworkImage(
+                          imageUrl: controller.savedPins[index].imageUrl ??
+                              'https://www.huber-online.com/daisy_website_files/_processed_/8/0/csm_no-image_d5c4ab1322.jpg',
+                        ),
+                        Positioned(
+                          bottom: 10.h,
+                          left: 10.w,
+                          right: 10.w,
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                InkWell(
+                                  onTap: () {},
+                                  child: Container(
+                                    width: 40.w,
+                                    height: 35.h,
+                                    decoration: BoxDecoration(
+                                      color: whiteColor.withOpacity(.75),
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                    child: Center(
+                                      child: SvgPicture.asset(
+                                        addToCIcon,
+                                        color: blackColor,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                InkWell(
+                                  onTap: () {},
+                                  child: Container(
+                                    width: 40.w,
+                                    height: 35.h,
+                                    decoration: BoxDecoration(
+                                      color: whiteColor.withOpacity(.75),
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                    child: Center(
+                                      child: SvgPicture.asset(
+                                        sendPinIcon,
+                                        color: blackColor,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    showModalBottomSheet(
+                                        context: context,
+                                        builder: (context) {
+                                          return PinOptions(
+                                            pin: controller.savedPins[index],
+                                          );
+                                        });
+                                  },
+                                  child: Container(
+                                    width: 40.w,
+                                    height: 35.h,
+                                    decoration: BoxDecoration(
+                                      color: whiteColor.withOpacity(.75),
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                    child: Center(
+                                      child: SvgPicture.asset(
+                                        menuIcon,
+                                        color: blackColor,
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ]),
+                        )
+                      ]),
                     ),
                   );
                 }),
