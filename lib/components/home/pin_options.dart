@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mypins/components/home/rename_pin_box.dart';
 import 'package:mypins/config/colors.dart';
 import 'package:mypins/config/icons.dart';
 import 'package:mypins/controllers/home_controller.dart';
@@ -56,6 +57,32 @@ class PinOptions extends StatelessWidget {
                 child: SvgPicture.asset(crossIcon),
               ),
             ),
+          ),
+        ),
+        InkWell(
+          onTap: () {
+            NavigatorKey.pop();
+            showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                builder: (context) {
+                  return RenamePinBox(pin: pin);
+                });
+          },
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 10.h),
+            child: Row(children: [
+              const Icon(Icons.edit, size: 20),
+              SizedBox(width: 7.5.w),
+              const Text(
+                'Rename',
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 14,
+                  color: blackColor,
+                ),
+              ),
+            ]),
           ),
         ),
         InkWell(

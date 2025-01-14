@@ -26,6 +26,7 @@ class HomeController extends GetxController {
   final pageController = PageController();
 
   final pinUrl = TextEditingController();
+  final rename = TextEditingController();
   final createCollection = TextEditingController();
 
   @override
@@ -231,5 +232,18 @@ class HomeController extends GetxController {
       debugPrint('Unknown Error: $e');
       rethrow;
     }
+  }
+
+  void renamePin(PinModel pin) async {
+    final newName = rename.text.trim();
+
+    int index = savedPins.indexWhere((ele) => ele.imageUrl == pin.imageUrl);
+    if (index != -1) {
+      savedPins[index] = savedPins[index].copyWith(title: newName);
+    }
+
+    rename.clear();
+    await addPinsToLocal();
+    NavigatorKey.pop();
   }
 }

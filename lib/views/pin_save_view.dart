@@ -97,100 +97,124 @@ class PinSaveView extends StatelessWidget {
                         ),
                       );
                     },
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(15),
-                      child: Stack(children: [
-                        CachedNetworkImage(
-                          imageUrl: controller.savedPins[index].imageUrl ??
-                              'https://www.huber-online.com/daisy_website_files/_processed_/8/0/csm_no-image_d5c4ab1322.jpg',
-                        ),
-                        Positioned(
-                          bottom: 10.h,
-                          left: 10.w,
-                          right: 10.w,
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                InkWell(
-                                  onTap: () {
-                                    showModalBottomSheet(
-                                        context: context,
-                                        builder: (context) {
-                                          return ShowCollectionsList(
-                                            model: controller.savedPins[index],
-                                          );
-                                        });
-                                  },
-                                  child: Container(
-                                    width: 40.w,
-                                    height: 35.h,
-                                    decoration: BoxDecoration(
-                                      color: whiteColor.withOpacity(.75),
-                                      borderRadius: BorderRadius.circular(15),
-                                    ),
-                                    child: Center(
-                                      child: SvgPicture.asset(
-                                        addToCIcon,
-                                        color: blackColor,
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(15),
+                            child: Stack(children: [
+                              CachedNetworkImage(
+                                imageUrl: controller
+                                        .savedPins[index].imageUrl ??
+                                    'https://www.huber-online.com/daisy_website_files/_processed_/8/0/csm_no-image_d5c4ab1322.jpg',
+                              ),
+                              Positioned(
+                                bottom: 10.h,
+                                left: 10.w,
+                                right: 10.w,
+                                child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      InkWell(
+                                        onTap: () {
+                                          showModalBottomSheet(
+                                              context: context,
+                                              builder: (context) {
+                                                return ShowCollectionsList(
+                                                  model: controller
+                                                      .savedPins[index],
+                                                );
+                                              });
+                                        },
+                                        child: Container(
+                                          width: 40.w,
+                                          height: 35.h,
+                                          decoration: BoxDecoration(
+                                            color: whiteColor.withOpacity(.75),
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                          ),
+                                          child: Center(
+                                            child: SvgPicture.asset(
+                                              addToCIcon,
+                                              color: blackColor,
+                                            ),
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                ),
-                                InkWell(
-                                  onTap: () async {
-                                    final text =
-                                        'Look at this... 👀\n${controller.savedPins[index].pinterestLink}';
+                                      InkWell(
+                                        onTap: () async {
+                                          final text =
+                                              'Look at this... 👀\n${controller.savedPins[index].pinterestLink}';
 
-                                    try {
-                                      await Share.share(text);
-                                    } catch (e) {
-                                      debugPrint('Faild to share with friends');
-                                    }
-                                  },
-                                  child: Container(
-                                    width: 40.w,
-                                    height: 35.h,
-                                    decoration: BoxDecoration(
-                                      color: whiteColor.withOpacity(.75),
-                                      borderRadius: BorderRadius.circular(15),
-                                    ),
-                                    child: Center(
-                                      child: SvgPicture.asset(
-                                        sendPinIcon,
-                                        color: blackColor,
+                                          try {
+                                            await Share.share(text);
+                                          } catch (e) {
+                                            debugPrint(
+                                                'Faild to share with friends');
+                                          }
+                                        },
+                                        child: Container(
+                                          width: 40.w,
+                                          height: 35.h,
+                                          decoration: BoxDecoration(
+                                            color: whiteColor.withOpacity(.75),
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                          ),
+                                          child: Center(
+                                            child: SvgPicture.asset(
+                                              sendPinIcon,
+                                              color: blackColor,
+                                            ),
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ),
+                                      InkWell(
+                                        onTap: () {
+                                          showModalBottomSheet(
+                                              context: context,
+                                              builder: (context) {
+                                                return PinOptions(
+                                                  pin: controller
+                                                      .savedPins[index],
+                                                );
+                                              });
+                                        },
+                                        child: Container(
+                                          width: 40.w,
+                                          height: 35.h,
+                                          decoration: BoxDecoration(
+                                            color: whiteColor.withOpacity(.75),
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                          ),
+                                          child: Center(
+                                            child: SvgPicture.asset(
+                                              menuIcon,
+                                              color: blackColor,
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    ]),
+                              )
+                            ]),
+                          ),
+                          if (controller.savedPins[index].title != null)
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(5.w, 10.h, 5.w, 0),
+                              child: Text(
+                                controller.savedPins[index].title!,
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                  color: offWhiteColor,
                                 ),
-                                InkWell(
-                                  onTap: () {
-                                    showModalBottomSheet(
-                                        context: context,
-                                        builder: (context) {
-                                          return PinOptions(
-                                            pin: controller.savedPins[index],
-                                          );
-                                        });
-                                  },
-                                  child: Container(
-                                    width: 40.w,
-                                    height: 35.h,
-                                    decoration: BoxDecoration(
-                                      color: whiteColor.withOpacity(.75),
-                                      borderRadius: BorderRadius.circular(15),
-                                    ),
-                                    child: Center(
-                                      child: SvgPicture.asset(
-                                        menuIcon,
-                                        color: blackColor,
-                                      ),
-                                    ),
-                                  ),
-                                )
-                              ]),
-                        )
-                      ]),
-                    ),
+                              ),
+                            )
+                        ]),
                   );
                 }),
           )
