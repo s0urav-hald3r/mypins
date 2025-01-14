@@ -40,7 +40,7 @@ dependencies:
   get_storage: ^2.1.1
   cached_network_image: ^3.4.1
   url_launcher: ^6.3.1
-  share_plus: ^10.1.2
+  share_plus: ^10.1.4
   purchases_flutter: ^8.3.0
   in_app_review: ^2.0.10
   page_transition: ^2.1.0

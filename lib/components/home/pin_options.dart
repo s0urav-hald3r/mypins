@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mypins/config/colors.dart';
 import 'package:mypins/config/icons.dart';
@@ -6,6 +7,8 @@ import 'package:mypins/controllers/home_controller.dart';
 import 'package:mypins/models/pin_model.dart';
 import 'package:mypins/services/navigator_key.dart';
 import 'package:mypins/utils/extension.dart';
+import 'package:mypins/utils/overlay_msg_loader.dart';
+import 'package:mypins/utils/utility_functions.dart';
 
 class PinOptions extends StatelessWidget {
   final PinModel pin;
@@ -56,51 +59,72 @@ class PinOptions extends StatelessWidget {
           ),
         ),
         InkWell(
-          onTap: () {},
-          child: Row(children: [
-            const Icon(Icons.language, size: 20),
-            SizedBox(width: 7.5.w),
-            const Text(
-              'Open on Pinterest',
-              style: TextStyle(
-                fontWeight: FontWeight.w500,
-                fontSize: 14,
-                color: blackColor,
+          onTap: () {
+            UtilityFunctions.openUrl(pin.pinterestLink!);
+            NavigatorKey.pop();
+          },
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 10.h),
+            child: Row(children: [
+              const Icon(Icons.language, size: 20),
+              SizedBox(width: 7.5.w),
+              const Text(
+                'Open on Pinterest',
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 14,
+                  color: blackColor,
+                ),
               ),
-            ),
-          ]),
+            ]),
+          ),
         ),
-        SizedBox(height: 20.h),
         InkWell(
-          onTap: () {},
-          child: Row(children: [
-            const Icon(Icons.link, size: 20),
-            SizedBox(width: 7.5.w),
-            const Text(
-              'Copy link',
-              style: TextStyle(
-                fontWeight: FontWeight.w500,
-                fontSize: 14,
-                color: blackColor,
+          onTap: () async {
+            Clipboard.setData(ClipboardData(text: pin.pinterestLink!));
+            NavigatorKey.pop();
+
+            await Future.delayed(const Duration(milliseconds: 250));
+            OverlayMsgLoader.show('Link copied');
+            Future.delayed(const Duration(milliseconds: 2000), () {
+              OverlayMsgLoader.hide();
+            });
+          },
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 10.h),
+            child: Row(children: [
+              const Icon(Icons.link, size: 20),
+              SizedBox(width: 7.5.w),
+              const Text(
+                'Copy link',
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 14,
+                  color: blackColor,
+                ),
               ),
-            ),
-          ]),
+            ]),
+          ),
         ),
-        SizedBox(height: 20.h),
         InkWell(
-          onTap: () {},
-          child: Row(children: [
-            const Icon(Icons.delete, size: 20, color: primaryColor),
-            SizedBox(width: 7.5.w),
-            const Text(
-              'Unsave',
-              style: TextStyle(
-                fontWeight: FontWeight.w500,
-                fontSize: 14,
-                color: primaryColor,
+          onTap: () {
+            controller.unSavePin(pin);
+          },
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 10.h),
+            child: Row(children: [
+              const Icon(Icons.delete, size: 20, color: primaryColor),
+              SizedBox(width: 7.5.w),
+              const Text(
+                'Unsave',
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 14,
+                  color: primaryColor,
+                ),
               ),
-            ),
-          ]),
+            ]),
+          ),
         )
       ]),
     );

@@ -109,7 +109,11 @@ class HomeController extends GetxController {
     await LocalStorage.addData(savedPinsCountCon, savedPinsCount);
 
     final url = pinUrl.text.trim();
-    final newPin = PinModel(imageUrl: url, isSelected: false);
+    final newPin = PinModel(
+      imageUrl: url,
+      pinterestLink: '',
+      isSelected: false,
+    );
 
     _savedPins.add(newPin);
     pinUrl.clear();
@@ -172,5 +176,11 @@ class HomeController extends GetxController {
     selectedPins.clear();
     savedPins =
         savedPins.map((ele) => ele.copyWith(isSelected: false)).toList();
+  }
+
+  Future<void> unSavePin(PinModel pin) async {
+    savedPins.removeWhere((ele) => ele.imageUrl == pin.imageUrl);
+    await addPinsToLocal();
+    NavigatorKey.pop();
   }
 }

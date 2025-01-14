@@ -69,36 +69,41 @@ class CollectionOptions extends StatelessWidget {
                   return ShowPinsList(collectionTag: model.name!);
                 });
           },
-          child: Row(children: [
-            const Icon(Icons.add, size: 20),
-            SizedBox(width: 7.5.w),
-            const Text(
-              'Add Pins to Collection',
-              style: TextStyle(
-                fontWeight: FontWeight.w500,
-                fontSize: 14,
-                color: blackColor,
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 10.h),
+            child: Row(children: [
+              const Icon(Icons.add, size: 20),
+              SizedBox(width: 7.5.w),
+              const Text(
+                'Add Pins to Collection',
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 14,
+                  color: blackColor,
+                ),
               ),
-            ),
-          ]),
+            ]),
+          ),
         ),
-        SizedBox(height: 20.h),
         InkWell(
           onTap: () {
             controller.deleteCollection(model.name!);
           },
-          child: Row(children: [
-            const Icon(Icons.delete, size: 20),
-            SizedBox(width: 7.5.w),
-            const Text(
-              'Delete Collection',
-              style: TextStyle(
-                fontWeight: FontWeight.w500,
-                fontSize: 14,
-                color: blackColor,
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 10.h),
+            child: Row(children: [
+              const Icon(Icons.delete, size: 20),
+              SizedBox(width: 7.5.w),
+              const Text(
+                'Delete Collection',
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 14,
+                  color: blackColor,
+                ),
               ),
-            ),
-          ]),
+            ]),
+          ),
         )
       ]),
     );

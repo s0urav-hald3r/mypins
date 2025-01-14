@@ -52,6 +52,8 @@ class NavigatorKey {
 
   static void pop([dynamic arguments]) {
     currentRoute = previousRoute;
-    return navigatorKey.currentState?.pop(arguments);
+    if (canPop()) {
+      return navigatorKey.currentState?.pop(arguments);
+    }
   }
 }
