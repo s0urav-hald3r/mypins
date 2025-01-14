@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mypins/config/colors.dart';
 import 'package:mypins/config/icons.dart';
+import 'package:mypins/controllers/home_controller.dart';
 import 'package:mypins/services/navigator_key.dart';
 import 'package:mypins/utils/extension.dart';
 import 'package:mypins/views/premium_view.dart';
@@ -11,6 +12,8 @@ class UsageBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = HomeController.instance;
+
     return Container(
       width: MediaQuery.of(context).size.width,
       decoration: const BoxDecoration(
@@ -45,17 +48,17 @@ class UsageBox extends StatelessWidget {
             ),
           ),
         ),
-        const Text(
-          '19 Save Left',
-          style: TextStyle(
+        Text(
+          '${20 - controller.savedPinsCount} Save Left',
+          style: const TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
             color: blackColor,
           ),
         ),
-        const Text(
-          'You have used 1 out of 20 saves',
-          style: TextStyle(
+        Text(
+          'You have used ${controller.savedPinsCount} out of 20 saves',
+          style: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w400,
             color: offWhiteColor,
