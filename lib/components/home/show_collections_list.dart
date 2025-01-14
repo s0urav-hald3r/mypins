@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mypins/components/home/create_collection_box.dart';
 import 'package:mypins/config/colors.dart';
 import 'package:mypins/config/icons.dart';
 import 'package:mypins/controllers/home_controller.dart';
@@ -55,29 +56,57 @@ class ShowCollectionsList extends StatelessWidget {
             ),
           ),
         ),
-        Column(
-            children: controller.collections.map((ele) {
-          return InkWell(
-            onTap: () {
-              controller.addPinsToCollection(ele.name!, pin: model);
-            },
-            child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 10.h),
-              child: Row(children: [
-                SvgPicture.asset(collectionsIcon),
-                SizedBox(width: 7.5.w),
-                Text(
-                  ele.name ?? '',
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 14,
-                    color: blackColor,
-                  ),
+        controller.collections.isEmpty
+            ? InkWell(
+                onTap: () {
+                  NavigatorKey.pop();
+
+                  showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      builder: (context) {
+                        return const CreateCollectionBox();
+                      });
+                },
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 10.h),
+                  child: Row(children: [
+                    const Icon(Icons.add, size: 20),
+                    SizedBox(width: 7.5.w),
+                    const Text(
+                      'Create collection',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 14,
+                        color: blackColor,
+                      ),
+                    ),
+                  ]),
                 ),
-              ]),
-            ),
-          );
-        }).toList()),
+              )
+            : Column(
+                children: controller.collections.map((ele) {
+                return InkWell(
+                  onTap: () {
+                    controller.addPinsToCollection(ele.name!, pin: model);
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 10.h),
+                    child: Row(children: [
+                      SvgPicture.asset(collectionsIcon),
+                      SizedBox(width: 7.5.w),
+                      Text(
+                        ele.name ?? '',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 14,
+                          color: blackColor,
+                        ),
+                      ),
+                    ]),
+                  ),
+                );
+              }).toList()),
       ]),
     );
   }
