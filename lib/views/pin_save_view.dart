@@ -12,7 +12,6 @@ import 'package:mypins/services/navigator_key.dart';
 import 'package:mypins/utils/extension.dart';
 import 'package:mypins/views/premium_view.dart';
 import 'package:mypins/views/show_image_view.dart';
-import 'package:share_plus/share_plus.dart';
 
 class PinSaveView extends StatelessWidget {
   const PinSaveView({super.key});
@@ -144,16 +143,9 @@ class PinSaveView extends StatelessWidget {
                                         ),
                                       ),
                                       InkWell(
-                                        onTap: () async {
-                                          final text =
-                                              'Look at this... 👀\n${controller.savedPins[index].pinterestLink}';
-
-                                          try {
-                                            await Share.share(text);
-                                          } catch (e) {
-                                            debugPrint(
-                                                'Faild to share with friends');
-                                          }
+                                        onTap: () {
+                                          controller.shareImage(
+                                              controller.savedPins[index]);
                                         },
                                         child: Container(
                                           width: 40.w,

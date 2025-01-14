@@ -58,4 +58,13 @@ class DioClient {
       rethrow;
     }
   }
+
+  // DOWNLOAD METHOD
+  Future<Response> download(String url, String path) async {
+    try {
+      return await _dio.download(url, path);
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

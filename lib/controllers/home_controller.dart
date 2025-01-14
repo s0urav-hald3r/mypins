@@ -1,6 +1,7 @@
 // ignore_for_file: constant_identifier_names
 
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,8 @@ import 'package:mypins/services/local_storage.dart';
 import 'package:mypins/services/navigator_key.dart';
 import 'package:mypins/services/overlay_loader.dart';
 import 'package:mypins/utils/overlay_msg_loader.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
 
 enum Plan { WEEKLY, MONTHLY, LIFETIME }
 
@@ -245,5 +248,29 @@ class HomeController extends GetxController {
     rename.clear();
     await addPinsToLocal();
     NavigatorKey.pop();
+  }
+
+  Future<void> shareImage(PinModel pin) async {
+    final tempDir = await getTemporaryDirectory();
+    OverlayLoader.show();
+
+    try {
+      final response = await _dioClient.download(
+          pin.imageUrl!, '${tempDir.path}/${pin.title}.jpg');
+      if (response.statusCode == 200) {
+        final file = File('${tempDir.path}/${pin.title}.jpg');
+
+        OverlayLoader.hide();
+        Share.shareXFiles([XFile(file.path)]);
+      } else {
+        throw Exception('Failed to load image');
+      }
+    } on DioException catch (e) {
+      OverlayLoader.hide();
+      debugPrint('DioException Error: $e');
+    } catch (e) {
+      OverlayLoader.hide();
+      debugPrint('Unknown Error: $e');
+    }
   }
 }
