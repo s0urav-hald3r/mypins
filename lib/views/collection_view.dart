@@ -174,7 +174,7 @@ class InitialCollectionView extends StatelessWidget {
                         isDismissible: false,
                         isScrollControlled: true,
                         builder: (context) {
-                          HomeController.instance.selectedPins.clear();
+                          HomeController.instance.resetSelectedPins();
                           return ShowPinsList(collectionTag: model.name!);
                         });
                   }

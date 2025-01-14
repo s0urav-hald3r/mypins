@@ -31,7 +31,7 @@ class ShowPinsList extends StatelessWidget {
             Container(
               width: 120.w,
               height: 30.h,
-              margin: EdgeInsets.fromLTRB(0, 10.h, 30.w, 10.h),
+              margin: EdgeInsets.fromLTRB(0, 10.h, 20.w, 10.h),
               child: ElevatedButton(
                 onPressed: () {
                   controller.selectedPins.isNotEmpty
@@ -69,23 +69,41 @@ class ShowPinsList extends StatelessWidget {
                     onLongPress: () {
                       controller.selectPin(controller.savedPins[index]);
                     },
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(15),
-                      child: Stack(children: [
-                        CachedNetworkImage(
-                          imageUrl: controller.savedPins[index].imageUrl ??
-                              'https://www.huber-online.com/daisy_website_files/_processed_/8/0/csm_no-image_d5c4ab1322.jpg',
-                        ),
-                        if (controller.savedPins[index].isSelected ?? false)
-                          Positioned(
-                              right: 10.w,
-                              top: 10.h,
-                              child: const Icon(
-                                Icons.check_circle,
-                                color: primaryColor,
-                              ))
-                      ]),
-                    ),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(15),
+                            child: Stack(children: [
+                              CachedNetworkImage(
+                                imageUrl: controller
+                                        .savedPins[index].imageUrl ??
+                                    'https://www.huber-online.com/daisy_website_files/_processed_/8/0/csm_no-image_d5c4ab1322.jpg',
+                              ),
+                              if (controller.savedPins[index].isSelected ??
+                                  false)
+                                Positioned(
+                                    right: 10.w,
+                                    top: 10.h,
+                                    child: const Icon(
+                                      Icons.check_circle,
+                                      color: primaryColor,
+                                    ))
+                            ]),
+                          ),
+                          if (controller.savedPins[index].title != null)
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(5.w, 10.h, 5.w, 0),
+                              child: Text(
+                                controller.savedPins[index].title!,
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                  color: offWhiteColor,
+                                ),
+                              ),
+                            )
+                        ]),
                   );
                 }),
           ),
