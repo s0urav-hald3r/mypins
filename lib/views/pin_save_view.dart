@@ -90,10 +90,7 @@ class PinSaveView extends StatelessWidget {
                   return InkWell(
                     onTap: () {
                       NavigatorKey.push(
-                        ShowImageView(
-                          imageUrl: controller.savedPins[index].imageUrl ??
-                              'https://www.huber-online.com/daisy_website_files/_processed_/8/0/csm_no-image_d5c4ab1322.jpg',
-                        ),
+                        ShowImageView(pinModel: controller.savedPins[index]),
                       );
                     },
                     child: Column(

@@ -100,7 +100,7 @@ class HomeController extends GetxController {
 
   Future<void> createCollectionModel() async {
     final name = createCollection.text.trim();
-    final newCollection = CollectionModel(name: name, images: []);
+    final newCollection = CollectionModel(name: name, pins: []);
 
     _collections.add(newCollection);
     createCollection.clear();
@@ -186,12 +186,10 @@ class HomeController extends GetxController {
     if (index != -1) {
       if (pin != null) {
         collections[index] = collections[index]
-            .copyWith(images: [...collections[index].images, pin.imageUrl!]);
+            .copyWith(pins: [...collections[index].pins, pin]);
       } else {
-        collections[index] = collections[index].copyWith(images: [
-          ...collections[index].images,
-          ...selectedPins.map((pin) => pin.imageUrl!)
-        ]);
+        collections[index] = collections[index]
+            .copyWith(pins: [...collections[index].pins, ...selectedPins]);
       }
     }
     await addCollectionsToLocal();
@@ -245,8 +243,15 @@ class HomeController extends GetxController {
       savedPins[index] = savedPins[index].copyWith(title: newName);
     }
 
+    for (var ele in collections) {
+      int index = ele.pins.indexWhere((t) => t.imageUrl == pin.imageUrl);
+
+      ele.pins[index] = ele.pins[index].copyWith(title: newName);
+    }
+
     rename.clear();
     await addPinsToLocal();
+    await addCollectionsToLocal();
     NavigatorKey.pop();
   }
 

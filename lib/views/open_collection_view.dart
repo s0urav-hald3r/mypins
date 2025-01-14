@@ -51,7 +51,7 @@ class OpenCollectionView extends StatelessWidget {
               ),
             ),
             Text(
-              '${collection.images.length} Saved',
+              '${collection.pins.length} Saved',
               style: const TextStyle(
                 fontWeight: FontWeight.w400,
                 fontSize: 12,
@@ -61,7 +61,7 @@ class OpenCollectionView extends StatelessWidget {
           ]),
           SizedBox(height: 25.h),
           MasonryGridView.builder(
-              itemCount: collection.images.length,
+              itemCount: collection.pins.length,
               mainAxisSpacing: 10.h,
               crossAxisSpacing: 10.w,
               shrinkWrap: true,
@@ -75,14 +75,30 @@ class OpenCollectionView extends StatelessWidget {
                 return InkWell(
                   onTap: () {
                     NavigatorKey.push(
-                        ShowImageView(imageUrl: collection.images[index]));
+                        ShowImageView(pinModel: collection.pins[index]));
                   },
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(15),
-                    child: CachedNetworkImage(
-                      imageUrl: collection.images[index],
-                    ),
-                  ),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(15),
+                          child: CachedNetworkImage(
+                            imageUrl: collection.pins[index].imageUrl!,
+                          ),
+                        ),
+                        if (collection.pins[index].title != null)
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(5.w, 10.h, 5.w, 0),
+                            child: Text(
+                              collection.pins[index].title!,
+                              style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500,
+                                color: offWhiteColor,
+                              ),
+                            ),
+                          )
+                      ]),
                 );
               }),
         ]),

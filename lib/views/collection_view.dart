@@ -31,7 +31,7 @@ class CollectionView extends StatelessWidget {
 
         return ListView(
             children: controller.collections.map((collection) {
-          if (collection.images.isEmpty) {
+          if (collection.pins.isEmpty) {
             return InitialCollectionView(model: collection);
           }
 
@@ -65,7 +65,7 @@ class FullCollectionView extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  '${model.images.length} Saved',
+                  '${model.pins.length} Saved',
                   style: const TextStyle(
                     fontWeight: FontWeight.w400,
                     fontSize: 12,
@@ -100,7 +100,7 @@ class FullCollectionView extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             padding: EdgeInsets.only(left: 20.w),
             physics: const NeverScrollableScrollPhysics(),
-            itemCount: min(5, model.images.length),
+            itemCount: min(5, model.pins.length),
             shrinkWrap: true,
             itemBuilder: (context, index) {
               return InkWell(
@@ -116,7 +116,7 @@ class FullCollectionView extends StatelessWidget {
                   ),
                   clipBehavior: Clip.antiAlias,
                   child: CachedNetworkImage(
-                    imageUrl: model.images[index],
+                    imageUrl: model.pins[index].imageUrl!,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -147,7 +147,7 @@ class InitialCollectionView extends StatelessWidget {
             ),
           ),
           Text(
-            '${model.images.length} Saved',
+            '${model.pins.length} Saved',
             style: const TextStyle(
               fontWeight: FontWeight.w400,
               fontSize: 12,

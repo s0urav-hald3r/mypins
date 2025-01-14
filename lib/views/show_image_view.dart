@@ -2,12 +2,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mypins/config/icons.dart';
+import 'package:mypins/models/pin_model.dart';
 import 'package:mypins/services/navigator_key.dart';
 import 'package:mypins/utils/extension.dart';
 
 class ShowImageView extends StatelessWidget {
-  final String imageUrl;
-  const ShowImageView({super.key, required this.imageUrl});
+  final PinModel pinModel;
+  const ShowImageView({super.key, required this.pinModel});
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +40,7 @@ class ShowImageView extends StatelessWidget {
           const Spacer(),
           ClipRRect(
             borderRadius: BorderRadius.circular(15),
-            child: CachedNetworkImage(imageUrl: imageUrl),
+            child: CachedNetworkImage(imageUrl: pinModel.imageUrl!),
           ),
           const Spacer(),
           Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [

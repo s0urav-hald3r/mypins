@@ -1,38 +1,40 @@
+import 'package:mypins/models/pin_model.dart';
+
 class CollectionModel {
   CollectionModel({
     required this.name,
-    required this.images,
+    required this.pins,
   });
 
   final String? name;
-  final List<String> images;
+  final List<PinModel> pins;
 
   CollectionModel copyWith({
     String? name,
-    List<String>? images,
+    List<PinModel>? pins,
   }) {
     return CollectionModel(
       name: name ?? this.name,
-      images: images ?? this.images,
+      pins: pins ?? this.pins,
     );
   }
 
   factory CollectionModel.fromJson(Map<String, dynamic> json) {
     return CollectionModel(
       name: json["name"],
-      images: json["images"] == null
+      pins: json["pins"] == null
           ? []
-          : List<String>.from(json["images"]!.map((x) => x)),
+          : List<PinModel>.from(json["pins"]!.map((x) => PinModel.fromJson(x))),
     );
   }
 
   Map<String, dynamic> toJson() => {
         "name": name,
-        "images": images.map((x) => x).toList(),
+        "pins": pins.map((x) => x.toJson()).toList(),
       };
 
   @override
   String toString() {
-    return "$name, $images";
+    return "$name, $pins";
   }
 }
