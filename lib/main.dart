@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_config/flutter_config.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -41,6 +42,9 @@ void main() async {
 
   // Initialize storage
   await GetStorage.init();
+
+  // Load environment variables
+  await FlutterConfig.loadEnvVariables();
 
   // Configure store for in-app purchase
   if (Platform.isIOS) {

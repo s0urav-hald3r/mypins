@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:dio/dio.dart';
+import 'package:mypins/services/authorization_interceptor.dart';
 import 'package:mypins/services/logger_interceptor.dart';
 
 class DioClient {
@@ -10,7 +11,8 @@ class DioClient {
             contentType: Headers.jsonContentType,
             responseType: ResponseType.json,
           ),
-        )..interceptors.add(LoggerInterceptor());
+        )..interceptors
+            .addAll([AuthorizationInterceptor(), LoggerInterceptor()]);
 
   // GET METHOD
   Future<Response> get(String url) async {

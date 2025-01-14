@@ -22,7 +22,7 @@ class OverlayLoader {
           // Semi-transparent background
           Container(color: Colors.black.withOpacity(0.5)),
           // Circular loader in the center
-          const Center(child: CupertinoActivityIndicator(color: whiteColor)),
+          const Center(child: CupertinoActivityIndicator(color: primaryColor)),
         ],
       ),
     );

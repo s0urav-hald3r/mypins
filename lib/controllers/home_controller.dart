@@ -2,19 +2,26 @@
 
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_config/flutter_config.dart';
 import 'package:get/get.dart';
 import 'package:mypins/config/constants.dart';
 import 'package:mypins/models/collection_model.dart';
 import 'package:mypins/models/pin_model.dart';
+import 'package:mypins/services/dio_client.dart';
 import 'package:mypins/services/local_storage.dart';
 import 'package:mypins/services/navigator_key.dart';
+import 'package:mypins/services/overlay_loader.dart';
+import 'package:mypins/utils/overlay_msg_loader.dart';
 
 enum Plan { WEEKLY, MONTHLY, LIFETIME }
 
 class HomeController extends GetxController {
   static HomeController get instance => Get.find();
+
+  final _dioClient = DioClient();
 
   final pageController = PageController();
 
@@ -105,20 +112,36 @@ class HomeController extends GetxController {
   }
 
   Future<void> addPin() async {
-    savedPinsCount += 1;
-    await LocalStorage.addData(savedPinsCountCon, savedPinsCount);
+    OverlayLoader.show();
+    try {
+      final url = pinUrl.text.trim();
+      final response = await getPinImageUrl(url);
+      final newPin = PinModel(
+        title: response[0],
+        imageUrl: response[1],
+        pinterestLink: url,
+        isSelected: false,
+      );
 
-    final url = pinUrl.text.trim();
-    final newPin = PinModel(
-      imageUrl: url,
-      pinterestLink: '',
-      isSelected: false,
-    );
+      _savedPins.add(newPin);
+      pinUrl.clear();
 
-    _savedPins.add(newPin);
-    pinUrl.clear();
-    await addPinsToLocal();
-    NavigatorKey.pop();
+      OverlayLoader.hide();
+      savedPinsCount += 1;
+      await LocalStorage.addData(savedPinsCountCon, savedPinsCount);
+      await addPinsToLocal();
+      NavigatorKey.pop();
+    } catch (e) {
+      pinUrl.clear();
+      OverlayLoader.hide();
+      NavigatorKey.pop();
+
+      await Future.delayed(const Duration(milliseconds: 250));
+      OverlayMsgLoader.show('Only Pinterest Link is supported at this time.');
+      Future.delayed(const Duration(milliseconds: 2000), () {
+        OverlayMsgLoader.hide();
+      });
+    }
   }
 
   Future<void> addPinsToLocal() async {
@@ -182,5 +205,25 @@ class HomeController extends GetxController {
     savedPins.removeWhere((ele) => ele.imageUrl == pin.imageUrl);
     await addPinsToLocal();
     NavigatorKey.pop();
+  }
+
+  Future<List<String?>> getPinImageUrl(String pinLink) async {
+    try {
+      final url = FlutterConfig.get('RAPID_API_URL');
+      const path = '/api/pins';
+
+      final response = await _dioClient.get('$url$path?url=$pinLink');
+
+      String? title = response.data['title'];
+      String? imageUrl = response.data['thumbnails']['orig']['url'];
+
+      return [title, imageUrl];
+    } on DioException catch (e) {
+      debugPrint('DioException Error: $e');
+      rethrow;
+    } catch (e) {
+      debugPrint('Unknown Error: $e');
+      rethrow;
+    }
   }
 }
