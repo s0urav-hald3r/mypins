@@ -167,4 +167,10 @@ class HomeController extends GetxController {
 
     NavigatorKey.pop();
   }
+
+  void resetSelectedPins() {
+    selectedPins.clear();
+    savedPins =
+        savedPins.map((ele) => ele.copyWith(isSelected: false)).toList();
+  }
 }

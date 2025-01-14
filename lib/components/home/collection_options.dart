@@ -65,7 +65,7 @@ class CollectionOptions extends StatelessWidget {
                 isDismissible: false,
                 isScrollControlled: true,
                 builder: (context) {
-                  controller.selectedPins.clear();
+                  controller.resetSelectedPins();
                   return ShowPinsList(collectionTag: model.name!);
                 });
           },
