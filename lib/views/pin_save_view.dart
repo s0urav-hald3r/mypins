@@ -4,6 +4,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:mypins/components/home/pin_options.dart';
+import 'package:mypins/components/home/show_collections_list.dart';
 import 'package:mypins/config/colors.dart';
 import 'package:mypins/config/icons.dart';
 import 'package:mypins/controllers/home_controller.dart';
@@ -111,7 +112,15 @@ class PinSaveView extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 InkWell(
-                                  onTap: () {},
+                                  onTap: () {
+                                    showModalBottomSheet(
+                                        context: context,
+                                        builder: (context) {
+                                          return ShowCollectionsList(
+                                            model: controller.savedPins[index],
+                                          );
+                                        });
+                                  },
                                   child: Container(
                                     width: 40.w,
                                     height: 35.h,

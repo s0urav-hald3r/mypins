@@ -175,14 +175,20 @@ class HomeController extends GetxController {
     }
   }
 
-  Future<void> addPinsToCollection(String collectionTag) async {
+  Future<void> addPinsToCollection(String collectionTag,
+      {PinModel? pin}) async {
     final index = collections.indexWhere((ele) => ele.name == collectionTag);
 
     if (index != -1) {
-      collections[index] = collections[index].copyWith(images: [
-        ...collections[index].images,
-        ...selectedPins.map((pin) => pin.imageUrl!)
-      ]);
+      if (pin != null) {
+        collections[index] = collections[index]
+            .copyWith(images: [...collections[index].images, pin.imageUrl!]);
+      } else {
+        collections[index] = collections[index].copyWith(images: [
+          ...collections[index].images,
+          ...selectedPins.map((pin) => pin.imageUrl!)
+        ]);
+      }
     }
     await addCollectionsToLocal();
     NavigatorKey.pop();
