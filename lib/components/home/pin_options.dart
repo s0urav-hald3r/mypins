@@ -60,7 +60,7 @@ class PinOptions extends StatelessWidget {
         ),
         InkWell(
           onTap: () {
-            UtilityFunctions.openUrl(pin.pinterestLink!);
+            UtilityFunctions.openUrl(pin.pinterestLink);
             NavigatorKey.pop();
           },
           child: Padding(
@@ -81,14 +81,24 @@ class PinOptions extends StatelessWidget {
         ),
         InkWell(
           onTap: () async {
-            Clipboard.setData(ClipboardData(text: pin.pinterestLink!));
-            NavigatorKey.pop();
+            try {
+              Clipboard.setData(ClipboardData(text: pin.pinterestLink!));
+              NavigatorKey.pop();
 
-            await Future.delayed(const Duration(milliseconds: 250));
-            OverlayMsgLoader.show('Link copied');
-            Future.delayed(const Duration(milliseconds: 2000), () {
-              OverlayMsgLoader.hide();
-            });
+              await Future.delayed(const Duration(milliseconds: 250));
+              OverlayMsgLoader.show('Link copied');
+              Future.delayed(const Duration(milliseconds: 2000), () {
+                OverlayMsgLoader.hide();
+              });
+            } catch (e) {
+              NavigatorKey.pop();
+
+              await Future.delayed(const Duration(milliseconds: 250));
+              OverlayMsgLoader.show('Link copied failed');
+              Future.delayed(const Duration(milliseconds: 2000), () {
+                OverlayMsgLoader.hide();
+              });
+            }
           },
           child: Padding(
             padding: EdgeInsets.symmetric(vertical: 10.h),
