@@ -91,6 +91,7 @@ class _ShowImageViewState extends State<ShowImageView> {
                     builder: (context) {
                       return PinOptions(
                         pin: widget.pinModel,
+                        route: widget.route,
                         unsaveOnly: true,
                         fromCollection: true,
                       );

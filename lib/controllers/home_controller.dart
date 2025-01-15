@@ -220,13 +220,30 @@ class HomeController extends GetxController {
         savedPins.map((ele) => ele.copyWith(isSelected: false)).toList();
   }
 
-  Future<void> unSavePin(PinModel pin) async {
-    savedPins.removeWhere((ele) => ele.imageUrl == pin.imageUrl);
-    for (var ele in collections) {
-      ele.pins.removeWhere((t) => t.imageUrl == pin.imageUrl);
+  Future<void> unSavePin(PinModel pin, String? route) async {
+    if (route == null) {
+      savedPins.removeWhere((ele) => ele.imageUrl == pin.imageUrl);
+
+      await addPinsToLocal();
+      NavigatorKey.pop();
+      return;
     }
 
-    await addPinsToLocal();
+    if (route == '/pins') {
+      savedPins.removeWhere((ele) => ele.imageUrl == pin.imageUrl);
+
+      await addPinsToLocal();
+      NavigatorKey.pop();
+      return;
+    }
+
+    int cIndex = collections.indexWhere((c) => c.name == route);
+    if (cIndex != -1) {
+      collections[cIndex].pins.removeWhere((p) => p.imageUrl == pin.imageUrl);
+    }
+
+    localCollections = collections;
+
     await addCollectionsToLocal();
     NavigatorKey.pop();
   }

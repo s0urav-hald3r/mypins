@@ -13,11 +13,13 @@ import 'package:mypins/utils/utility_functions.dart';
 
 class PinOptions extends StatelessWidget {
   final PinModel pin;
+  final String? route;
   final bool unsaveOnly;
   final bool fromCollection;
   const PinOptions({
     super.key,
     required this.pin,
+    this.route,
     this.unsaveOnly = false,
     this.fromCollection = false,
   });
@@ -155,7 +157,7 @@ class PinOptions extends StatelessWidget {
           ),
         InkWell(
           onTap: () {
-            controller.unSavePin(pin);
+            controller.unSavePin(pin, route);
             if (unsaveOnly) NavigatorKey.pop();
 
             if (fromCollection) NavigatorKey.pop();
