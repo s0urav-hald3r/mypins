@@ -78,16 +78,20 @@ class HomeController extends GetxController {
   final RxInt _savedPinsCount = 0.obs;
   final Rx<Plan> _selectedPlan = Plan.LIFETIME.obs;
   final RxList<PinModel> _savedPins = <PinModel>[].obs;
+  final RxList<PinModel> _localSavedPins = <PinModel>[].obs;
   final RxList<PinModel> _selectedPins = <PinModel>[].obs;
   final RxList<CollectionModel> _collections = <CollectionModel>[].obs;
+  final RxList<CollectionModel> _localCollections = <CollectionModel>[].obs;
   // Getters
   int get onboardingIndex => _onboardingIndex.value;
   int get homeIndex => _homeIndex.value;
   int get savedPinsCount => _savedPinsCount.value;
   Plan get selectedPlan => _selectedPlan.value;
   List<PinModel> get savedPins => _savedPins;
+  List<PinModel> get localSavedPins => _localSavedPins;
   List<PinModel> get selectedPins => _selectedPins;
   List<CollectionModel> get collections => _collections;
+  List<CollectionModel> get localCollections => _localCollections;
 
   // Setters
   set onboardingIndex(value) => _onboardingIndex.value = value;
@@ -95,8 +99,10 @@ class HomeController extends GetxController {
   set savedPinsCount(value) => _savedPinsCount.value = value;
   set selectedPlan(value) => _selectedPlan.value = value;
   set savedPins(value) => _savedPins.value = value;
+  set localSavedPins(value) => _localSavedPins.value = value;
   set selectedPins(value) => _selectedPins.value = value;
   set collections(value) => _collections.value = value;
+  set localCollections(value) => _localCollections.value = value;
 
   Future<void> createCollectionModel() async {
     final name = createCollection.text.trim();

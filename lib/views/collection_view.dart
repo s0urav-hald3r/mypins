@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -14,13 +15,30 @@ import 'package:mypins/services/navigator_key.dart';
 import 'package:mypins/utils/extension.dart';
 import 'package:mypins/views/open_collection_view.dart';
 
-class CollectionView extends StatelessWidget {
+class CollectionView extends StatefulWidget {
   const CollectionView({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final controller = HomeController.instance;
+  State<CollectionView> createState() => _CollectionViewState();
+}
 
+class _CollectionViewState extends State<CollectionView> {
+  final controller = HomeController.instance;
+
+  @override
+  void initState() {
+    super.initState();
+    controller.localCollections = controller.collections;
+  }
+
+  void _filterList(String query) {
+    controller.localCollections = controller.collections
+        .where((item) => item.name!.toLowerCase().contains(query.toLowerCase()))
+        .toList();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
@@ -29,14 +47,45 @@ class CollectionView extends StatelessWidget {
           return const EmptyCollectionView();
         }
 
-        return ListView(
-            children: controller.collections.map((collection) {
-          if (collection.pins.isEmpty) {
-            return InitialCollectionView(model: collection);
-          }
+        return Column(children: [
+          Container(
+            height: 50.h,
+            margin: EdgeInsets.fromLTRB(17.5.w, 0, 17.5.w, 20.h),
+            child: CupertinoTextField(
+              onChanged: _filterList,
+              decoration: BoxDecoration(
+                color: const Color(0xFFEEEEEE),
+                borderRadius: BorderRadius.circular(15),
+              ),
+              padding: EdgeInsets.zero,
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: Color(0xFF4B4B4B),
+              ),
+              placeholder: 'Search Collections',
+              placeholderStyle: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                color: const Color(0xFF4B4B4B).withOpacity(.5),
+              ),
+              prefix: Padding(
+                padding: EdgeInsets.only(left: 15.w, right: 10.w),
+                child: SvgPicture.asset(searchIcon),
+              ),
+            ),
+          ),
+          Expanded(
+            child: ListView(
+                children: controller.localCollections.map((collection) {
+              if (collection.pins.isEmpty) {
+                return InitialCollectionView(model: collection);
+              }
 
-          return FullCollectionView(model: collection);
-        }).toList());
+              return FullCollectionView(model: collection);
+            }).toList()),
+          )
+        ]);
       }),
     );
   }
