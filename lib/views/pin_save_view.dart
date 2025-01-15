@@ -32,8 +32,8 @@ class _PinSaveViewState extends State<PinSaveView> {
 
   void _filterList(String query) {
     controller.localSavedPins = controller.savedPins
-        .where(
-            (item) => item.title!.toLowerCase().contains(query.toLowerCase()))
+        .where((item) =>
+            (item.title ?? '').toLowerCase().contains(query.toLowerCase()))
         .toList();
   }
 
