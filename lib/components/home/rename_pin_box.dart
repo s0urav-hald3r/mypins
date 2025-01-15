@@ -71,6 +71,7 @@ class RenamePinBox extends StatelessWidget {
           height: 50.h,
           child: CupertinoTextField(
             controller: controller.rename,
+            autofocus: true,
             decoration: BoxDecoration(
               color: const Color(0xFFEEEEEE),
               borderRadius: BorderRadius.circular(15),
