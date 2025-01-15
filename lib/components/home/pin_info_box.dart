@@ -1,26 +1,24 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mypins/config/colors.dart';
 import 'package:mypins/config/icons.dart';
 import 'package:mypins/models/pin_model.dart';
 import 'package:mypins/services/navigator_key.dart';
 import 'package:mypins/utils/extension.dart';
+import 'package:mypins/utils/overlay_msg_loader.dart';
+import 'package:mypins/utils/utility_functions.dart';
 
-class PinUserBox extends StatelessWidget {
+class PinInfoBox extends StatelessWidget {
   final PinModel pinModel;
-  const PinUserBox({super.key, required this.pinModel});
+  const PinInfoBox({super.key, required this.pinModel});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
-      padding: EdgeInsets.fromLTRB(
-        25.w,
-        0,
-        25.w,
-        MediaQuery.of(context).viewInsets.bottom,
-      ),
+      padding: EdgeInsets.fromLTRB(25.w, 0, 25.w, 0),
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(16),
@@ -143,6 +141,75 @@ class PinUserBox extends StatelessWidget {
               ),
             ),
           ]),
+        ]),
+        SizedBox(height: 10.h),
+        Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          InkWell(
+            onTap: () async {
+              try {
+                Clipboard.setData(ClipboardData(
+                    text: 'https://in.pinterest.com/${pinModel.userName}/'));
+                NavigatorKey.pop();
+
+                await Future.delayed(const Duration(milliseconds: 250));
+                OverlayMsgLoader.show('Link copied');
+                Future.delayed(const Duration(milliseconds: 2000), () {
+                  OverlayMsgLoader.hide();
+                });
+              } catch (e) {
+                NavigatorKey.pop();
+
+                await Future.delayed(const Duration(milliseconds: 250));
+                OverlayMsgLoader.show('Link copied failed');
+                Future.delayed(const Duration(milliseconds: 2000), () {
+                  OverlayMsgLoader.hide();
+                });
+              }
+            },
+            child: Container(
+              width: 150.w,
+              height: 45.h,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(25),
+                color: offWhiteColor.withOpacity(.25),
+              ),
+              child: const Center(
+                child: Text(
+                  'Copy Link',
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: blackColor,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          InkWell(
+            onTap: () {
+              UtilityFunctions.openUrl(
+                  'https://in.pinterest.com/${pinModel.userName}/');
+              NavigatorKey.pop();
+            },
+            child: Container(
+              width: 150.w,
+              height: 45.h,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(25),
+                color: primaryColor,
+              ),
+              child: const Center(
+                child: Text(
+                  'Open on Pinterest',
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: whiteColor,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+          ),
         ]),
         SizedBox(height: MediaQuery.of(context).padding.bottom)
       ]),

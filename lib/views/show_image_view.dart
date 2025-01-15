@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mypins/components/home/pin_options.dart';
-import 'package:mypins/components/home/pin_user_box.dart';
+import 'package:mypins/components/home/pin_info_box.dart';
 import 'package:mypins/config/icons.dart';
 import 'package:mypins/controllers/home_controller.dart';
 import 'package:mypins/models/pin_model.dart';
@@ -82,8 +82,9 @@ class ShowImageView extends StatelessWidget {
               onTap: () {
                 showModalBottomSheet(
                     context: context,
+                    isScrollControlled: true,
                     builder: (context) {
-                      return PinUserBox(pinModel: pinModel);
+                      return PinInfoBox(pinModel: pinModel);
                     });
               },
               child: CircleAvatar(
