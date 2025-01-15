@@ -211,7 +211,12 @@ class HomeController extends GetxController {
 
   Future<void> unSavePin(PinModel pin) async {
     savedPins.removeWhere((ele) => ele.imageUrl == pin.imageUrl);
+    for (var ele in collections) {
+      ele.pins.removeWhere((t) => t.imageUrl == pin.imageUrl);
+    }
+
     await addPinsToLocal();
+    await addCollectionsToLocal();
     NavigatorKey.pop();
   }
 
