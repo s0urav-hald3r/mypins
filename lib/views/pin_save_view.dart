@@ -132,13 +132,13 @@ class _PinSaveViewState extends State<PinSaveView> {
                     const SliverSimpleGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                 ),
-                itemBuilder: (count, index) {
+                itemBuilder: (context, index) {
                   return InkWell(
                     onTap: () {
-                      NavigatorKey.push(
-                        ShowImageView(
-                            pinModel: controller.localSavedPins[index]),
-                      );
+                      NavigatorKey.push(ShowImageView(
+                        pinModel: controller.localSavedPins[index],
+                        route: '/pins',
+                      ));
                     },
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

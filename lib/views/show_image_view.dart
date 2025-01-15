@@ -3,20 +3,34 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mypins/components/home/pin_options.dart';
 import 'package:mypins/components/home/pin_info_box.dart';
+import 'package:mypins/config/colors.dart';
 import 'package:mypins/config/icons.dart';
 import 'package:mypins/controllers/home_controller.dart';
 import 'package:mypins/models/pin_model.dart';
 import 'package:mypins/services/navigator_key.dart';
 import 'package:mypins/utils/extension.dart';
 
-class ShowImageView extends StatelessWidget {
+class ShowImageView extends StatefulWidget {
   final PinModel pinModel;
-  const ShowImageView({super.key, required this.pinModel});
+  final String route;
+  const ShowImageView({super.key, required this.pinModel, required this.route});
+
+  @override
+  State<ShowImageView> createState() => _ShowImageViewState();
+}
+
+class _ShowImageViewState extends State<ShowImageView> {
+  final controller = HomeController.instance;
+  bool isPinned = false;
+
+  @override
+  void initState() {
+    super.initState();
+    isPinned = widget.pinModel.isPinned ?? false;
+  }
 
   @override
   Widget build(BuildContext context) {
-    final controller = HomeController.instance;
-
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -45,21 +59,41 @@ class ShowImageView extends StatelessWidget {
           const Spacer(),
           ClipRRect(
             borderRadius: BorderRadius.circular(15),
-            child: CachedNetworkImage(imageUrl: pinModel.imageUrl!),
+            child: Container(
+              constraints: BoxConstraints(
+                maxHeight: MediaQuery.of(context).size.height * 0.7,
+              ),
+              child: CachedNetworkImage(imageUrl: widget.pinModel.imageUrl!),
+            ),
           ),
           const Spacer(),
           Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-            CircleAvatar(
-              radius: 25,
-              backgroundColor: const Color(0xFF4B4B4B).withOpacity(.25),
-              child: SvgPicture.asset(pinIcon),
+            InkWell(
+              onTap: () {
+                controller.togglePinStatus(widget.pinModel, widget.route);
+
+                setState(() {
+                  isPinned = !isPinned;
+                });
+              },
+              child: CircleAvatar(
+                radius: 25,
+                backgroundColor: isPinned
+                    ? primaryColor
+                    : const Color(0xFF4B4B4B).withOpacity(.25),
+                child: SvgPicture.asset(pinIcon),
+              ),
             ),
             InkWell(
               onTap: () {
                 showModalBottomSheet(
                     context: context,
                     builder: (context) {
-                      return PinOptions(pin: pinModel, unsaveOnly: true);
+                      return PinOptions(
+                        pin: widget.pinModel,
+                        unsaveOnly: true,
+                        fromCollection: true,
+                      );
                     });
               },
               child: CircleAvatar(
@@ -70,7 +104,7 @@ class ShowImageView extends StatelessWidget {
             ),
             InkWell(
               onTap: () {
-                controller.shareImage(pinModel);
+                controller.shareImage(widget.pinModel);
               },
               child: CircleAvatar(
                 radius: 25,
@@ -84,7 +118,7 @@ class ShowImageView extends StatelessWidget {
                     context: context,
                     isScrollControlled: true,
                     builder: (context) {
-                      return PinInfoBox(pinModel: pinModel);
+                      return PinInfoBox(pinModel: widget.pinModel);
                     });
               },
               child: CircleAvatar(

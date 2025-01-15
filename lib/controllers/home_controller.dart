@@ -135,6 +135,7 @@ class HomeController extends GetxController {
         userName: response['userName'],
         userFullName: response['userFullName'],
         userImage: response['userImage'],
+        isPinned: false,
       );
 
       _savedPins.add(newPin);
@@ -306,5 +307,35 @@ class HomeController extends GetxController {
       OverlayLoader.hide();
       debugPrint('Unknown Error: $e');
     }
+  }
+
+  void togglePinStatus(PinModel pin, String route) async {
+    if (route == '/pins') {
+      int index = savedPins.indexWhere((ele) => ele.imageUrl == pin.imageUrl);
+      if (index != -1) {
+        savedPins[index] = savedPins[index]
+            .copyWith(isPinned: !(savedPins[index].isPinned ?? false));
+      }
+
+      await addPinsToLocal();
+      return;
+    }
+
+    int cIndex = collections.indexWhere((c) => c.name == route);
+    if (cIndex != -1) {
+      int pIndex = collections[cIndex]
+          .pins
+          .indexWhere((t) => t.imageUrl == pin.imageUrl);
+
+      if (pIndex != -1) {
+        collections[cIndex].pins[pIndex] = collections[cIndex]
+            .pins[pIndex]
+            .copyWith(
+                isPinned:
+                    !(collections[cIndex].pins[pIndex].isPinned ?? false));
+      }
+    }
+
+    await addCollectionsToLocal();
   }
 }

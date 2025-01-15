@@ -74,8 +74,10 @@ class OpenCollectionView extends StatelessWidget {
               itemBuilder: (count, index) {
                 return InkWell(
                   onTap: () {
-                    NavigatorKey.push(
-                        ShowImageView(pinModel: collection.pins[index]));
+                    NavigatorKey.push(ShowImageView(
+                      pinModel: collection.pins[index],
+                      route: collection.name!,
+                    ));
                   },
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

@@ -14,7 +14,13 @@ import 'package:mypins/utils/utility_functions.dart';
 class PinOptions extends StatelessWidget {
   final PinModel pin;
   final bool unsaveOnly;
-  const PinOptions({super.key, required this.pin, this.unsaveOnly = false});
+  final bool fromCollection;
+  const PinOptions({
+    super.key,
+    required this.pin,
+    this.unsaveOnly = false,
+    this.fromCollection = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -151,6 +157,8 @@ class PinOptions extends StatelessWidget {
           onTap: () {
             controller.unSavePin(pin);
             if (unsaveOnly) NavigatorKey.pop();
+
+            if (fromCollection) NavigatorKey.pop();
           },
           child: Padding(
             padding: EdgeInsets.symmetric(vertical: 10.h),

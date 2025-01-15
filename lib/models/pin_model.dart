@@ -8,6 +8,7 @@ class PinModel {
     required this.userName,
     required this.userFullName,
     required this.userImage,
+    required this.isPinned,
   });
 
   final String? title;
@@ -18,6 +19,7 @@ class PinModel {
   final String? userName;
   final String? userFullName;
   final String? userImage;
+  final bool? isPinned;
 
   PinModel copyWith({
     String? title,
@@ -28,6 +30,7 @@ class PinModel {
     String? userName,
     String? userFullName,
     String? userImage,
+    bool? isPinned,
   }) {
     return PinModel(
       title: title ?? this.title,
@@ -38,6 +41,7 @@ class PinModel {
       userName: userName ?? this.userName,
       userFullName: userFullName ?? this.userFullName,
       userImage: userImage ?? this.userImage,
+      isPinned: isPinned ?? this.isPinned,
     );
   }
 
@@ -51,6 +55,7 @@ class PinModel {
       userName: json["userName"],
       userFullName: json["userFullName"],
       userImage: json["userImage"],
+      isPinned: json["isPinned"],
     );
   }
 
@@ -63,10 +68,11 @@ class PinModel {
         "userName": userName,
         "userFullName": userFullName,
         "userImage": userImage,
+        "isPinned": isPinned,
       };
 
   @override
   String toString() {
-    return "$title, $description, $imageUrl, $pinterestLink, $isSelected, $userName, $userFullName, $userImage";
+    return "$title, $description, $imageUrl, $pinterestLink, $isSelected, $userName, $userFullName, $userImage, $isPinned";
   }
 }
