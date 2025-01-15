@@ -293,7 +293,7 @@ class EmptyCollectionView extends StatelessWidget {
       ),
       const Spacer(),
       Transform.translate(
-        offset: Offset(-75.w, -25.h),
+        offset: Offset(-75.w, -125.h),
         child: SvgPicture.asset(roundedArrowIcon),
       )
     ]);

@@ -127,10 +127,14 @@ class HomeController extends GetxController {
       final url = pinUrl.text.trim();
       final response = await getPinImageUrl(url);
       final newPin = PinModel(
-        title: response[0],
-        imageUrl: response[1],
+        title: response['title'],
+        description: response['description'],
+        imageUrl: response['imageUrl'],
         pinterestLink: url,
         isSelected: false,
+        userName: response['userName'],
+        userFullName: response['userFullName'],
+        userImage: response['userImage'],
       );
 
       _savedPins.add(newPin);
@@ -226,7 +230,7 @@ class HomeController extends GetxController {
     NavigatorKey.pop();
   }
 
-  Future<List<String?>> getPinImageUrl(String pinLink) async {
+  Future<Map> getPinImageUrl(String pinLink) async {
     try {
       final url = FlutterConfig.get('RAPID_API_URL');
       const path = '/api/pins';
@@ -234,9 +238,21 @@ class HomeController extends GetxController {
       final response = await _dioClient.get('$url$path?url=$pinLink');
 
       String? title = response.data['title'];
+      String? description = response.data['description'];
       String? imageUrl = response.data['thumbnails']['orig']['url'];
 
-      return [title, imageUrl];
+      String? userName = response.data['pinner']['username'];
+      String? userFullName = response.data['pinner']['full_name'];
+      String? userImage = response.data['pinner']['image_medium_url'];
+
+      return {
+        'title': title,
+        'description': description,
+        'imageUrl': imageUrl,
+        'userName': userName,
+        'userFullName': userFullName,
+        'userImage': userImage,
+      };
     } on DioException catch (e) {
       debugPrint('DioException Error: $e');
       rethrow;
@@ -257,7 +273,9 @@ class HomeController extends GetxController {
     for (var ele in collections) {
       int index = ele.pins.indexWhere((t) => t.imageUrl == pin.imageUrl);
 
-      ele.pins[index] = ele.pins[index].copyWith(title: newName);
+      if (index != -1) {
+        ele.pins[index] = ele.pins[index].copyWith(title: newName);
+      }
     }
 
     rename.clear();
