@@ -78,6 +78,9 @@ class _CollectionViewState extends State<CollectionView> {
           Expanded(
             child: ListView(
                 children: controller.localCollections.map((collection) {
+              collection.pins.sort(
+                  (a, b) => (b.isPinned! ? 1 : 0) - (a.isPinned! ? 1 : 0));
+
               if (collection.pins.isEmpty) {
                 return InitialCollectionView(model: collection);
               }
