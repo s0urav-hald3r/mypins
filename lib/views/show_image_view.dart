@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mypins/components/home/pin_options.dart';
 import 'package:mypins/config/icons.dart';
+import 'package:mypins/controllers/home_controller.dart';
 import 'package:mypins/models/pin_model.dart';
 import 'package:mypins/services/navigator_key.dart';
 import 'package:mypins/utils/extension.dart';
@@ -12,6 +14,8 @@ class ShowImageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = HomeController.instance;
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -49,15 +53,29 @@ class ShowImageView extends StatelessWidget {
               backgroundColor: const Color(0xFF4B4B4B).withOpacity(.25),
               child: SvgPicture.asset(pinIcon),
             ),
-            CircleAvatar(
-              radius: 25,
-              backgroundColor: const Color(0xFF4B4B4B).withOpacity(.25),
-              child: SvgPicture.asset(bookmarkIcon),
+            InkWell(
+              onTap: () {
+                showModalBottomSheet(
+                    context: context,
+                    builder: (context) {
+                      return PinOptions(pin: pinModel, unsaveOnly: true);
+                    });
+              },
+              child: CircleAvatar(
+                radius: 25,
+                backgroundColor: const Color(0xFF4B4B4B).withOpacity(.25),
+                child: SvgPicture.asset(bookmarkIcon),
+              ),
             ),
-            CircleAvatar(
-              radius: 25,
-              backgroundColor: const Color(0xFF4B4B4B).withOpacity(.25),
-              child: SvgPicture.asset(sendIcon),
+            InkWell(
+              onTap: () {
+                controller.shareImage(pinModel);
+              },
+              child: CircleAvatar(
+                radius: 25,
+                backgroundColor: const Color(0xFF4B4B4B).withOpacity(.25),
+                child: SvgPicture.asset(sendIcon),
+              ),
             ),
             CircleAvatar(
               radius: 25,

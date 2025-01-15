@@ -13,7 +13,8 @@ import 'package:mypins/utils/utility_functions.dart';
 
 class PinOptions extends StatelessWidget {
   final PinModel pin;
-  const PinOptions({super.key, required this.pin});
+  final bool unsaveOnly;
+  const PinOptions({super.key, required this.pin, this.unsaveOnly = false});
 
   @override
   Widget build(BuildContext context) {
@@ -59,93 +60,97 @@ class PinOptions extends StatelessWidget {
             ),
           ),
         ),
-        InkWell(
-          onTap: () {
-            NavigatorKey.pop();
-            showModalBottomSheet(
-                context: context,
-                isScrollControlled: true,
-                builder: (context) {
-                  return RenamePinBox(pin: pin);
+        if (!unsaveOnly)
+          InkWell(
+            onTap: () {
+              NavigatorKey.pop();
+              showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  builder: (context) {
+                    return RenamePinBox(pin: pin);
+                  });
+            },
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.h),
+              child: Row(children: [
+                const Icon(Icons.edit, size: 20),
+                SizedBox(width: 7.5.w),
+                const Text(
+                  'Rename',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 14,
+                    color: blackColor,
+                  ),
+                ),
+              ]),
+            ),
+          ),
+        if (!unsaveOnly)
+          InkWell(
+            onTap: () {
+              UtilityFunctions.openUrl(pin.pinterestLink);
+              NavigatorKey.pop();
+            },
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.h),
+              child: Row(children: [
+                const Icon(Icons.language, size: 20),
+                SizedBox(width: 7.5.w),
+                const Text(
+                  'Open on Pinterest',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 14,
+                    color: blackColor,
+                  ),
+                ),
+              ]),
+            ),
+          ),
+        if (!unsaveOnly)
+          InkWell(
+            onTap: () async {
+              try {
+                Clipboard.setData(ClipboardData(text: pin.pinterestLink!));
+                NavigatorKey.pop();
+
+                await Future.delayed(const Duration(milliseconds: 250));
+                OverlayMsgLoader.show('Link copied');
+                Future.delayed(const Duration(milliseconds: 2000), () {
+                  OverlayMsgLoader.hide();
                 });
-          },
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 10.h),
-            child: Row(children: [
-              const Icon(Icons.edit, size: 20),
-              SizedBox(width: 7.5.w),
-              const Text(
-                'Rename',
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 14,
-                  color: blackColor,
-                ),
-              ),
-            ]),
-          ),
-        ),
-        InkWell(
-          onTap: () {
-            UtilityFunctions.openUrl(pin.pinterestLink);
-            NavigatorKey.pop();
-          },
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 10.h),
-            child: Row(children: [
-              const Icon(Icons.language, size: 20),
-              SizedBox(width: 7.5.w),
-              const Text(
-                'Open on Pinterest',
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 14,
-                  color: blackColor,
-                ),
-              ),
-            ]),
-          ),
-        ),
-        InkWell(
-          onTap: () async {
-            try {
-              Clipboard.setData(ClipboardData(text: pin.pinterestLink!));
-              NavigatorKey.pop();
+              } catch (e) {
+                NavigatorKey.pop();
 
-              await Future.delayed(const Duration(milliseconds: 250));
-              OverlayMsgLoader.show('Link copied');
-              Future.delayed(const Duration(milliseconds: 2000), () {
-                OverlayMsgLoader.hide();
-              });
-            } catch (e) {
-              NavigatorKey.pop();
-
-              await Future.delayed(const Duration(milliseconds: 250));
-              OverlayMsgLoader.show('Link copied failed');
-              Future.delayed(const Duration(milliseconds: 2000), () {
-                OverlayMsgLoader.hide();
-              });
-            }
-          },
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 10.h),
-            child: Row(children: [
-              const Icon(Icons.link, size: 20),
-              SizedBox(width: 7.5.w),
-              const Text(
-                'Copy link',
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 14,
-                  color: blackColor,
+                await Future.delayed(const Duration(milliseconds: 250));
+                OverlayMsgLoader.show('Link copied failed');
+                Future.delayed(const Duration(milliseconds: 2000), () {
+                  OverlayMsgLoader.hide();
+                });
+              }
+            },
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.h),
+              child: Row(children: [
+                const Icon(Icons.link, size: 20),
+                SizedBox(width: 7.5.w),
+                const Text(
+                  'Copy link',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 14,
+                    color: blackColor,
+                  ),
                 ),
-              ),
-            ]),
+              ]),
+            ),
           ),
-        ),
         InkWell(
           onTap: () {
             controller.unSavePin(pin);
+            if (unsaveOnly) NavigatorKey.pop();
           },
           child: Padding(
             padding: EdgeInsets.symmetric(vertical: 10.h),
