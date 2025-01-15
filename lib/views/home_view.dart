@@ -21,6 +21,7 @@ class HomeView extends StatelessWidget {
 
     return Obx(() {
       return Scaffold(
+        extendBody: true,
         resizeToAvoidBottomInset: true,
         appBar: AppBar(
           title: const Text('MyPins'),
