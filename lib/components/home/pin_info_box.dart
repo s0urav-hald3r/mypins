@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,8 +18,6 @@ class PinInfoBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('pinModel: ${pinModel}');
-
     return Container(
       width: MediaQuery.of(context).size.width,
       padding: EdgeInsets.fromLTRB(25.w, 0, 25.w, 0),
@@ -81,22 +81,26 @@ class PinInfoBox extends StatelessWidget {
           ),
         ),
         SizedBox(height: 5.h),
-        Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          const Icon(
-            Icons.person,
-            size: 16,
-            color: primaryColor,
-          ),
-          SizedBox(width: 5.w),
-          Text(
-            pinModel.userFullName ?? '',
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-              color: offWhiteColor,
+        SizedBox(
+          width: MediaQuery.of(context).size.width - 50.w,
+          child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            const Icon(
+              Icons.person,
+              size: 16,
+              color: primaryColor,
             ),
-          ),
-        ]),
+            SizedBox(width: 5.w),
+            Text(
+              '${(pinModel.userFullName ?? '').substring(0, min((pinModel.userFullName ?? '').length, 25))}...',
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                color: offWhiteColor,
+              ),
+            ),
+          ]),
+        ),
         SizedBox(height: 10.h),
         Row(children: [
           Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -108,14 +112,17 @@ class PinInfoBox extends StatelessWidget {
                 color: offWhiteColor.withOpacity(.5),
               ),
             ),
-            Text(
-              (pinModel.title ?? '').trim().isEmpty
-                  ? 'not available...'
-                  : pinModel.title!,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                color: offWhiteColor,
+            SizedBox(
+              width: MediaQuery.of(context).size.width - 50.w,
+              child: Text(
+                (pinModel.title ?? '').trim().isEmpty
+                    ? 'not available...'
+                    : pinModel.title!,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: offWhiteColor,
+                ),
               ),
             ),
           ]),
