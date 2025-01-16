@@ -86,9 +86,14 @@ class ShowCollectionsList extends StatelessWidget {
               )
             : Column(
                 children: controller.collections.map((ele) {
+                int index = ele.pins
+                    .indexWhere((ele) => ele.imageUrl == model.imageUrl);
+
                 return InkWell(
                   onTap: () {
-                    controller.addPinsToCollection(ele.name!, pin: model);
+                    if (index == -1) {
+                      controller.addPinsToCollection(ele.name!, pin: model);
+                    }
                   },
                   child: Padding(
                     padding: EdgeInsets.symmetric(vertical: 10.h),
@@ -97,10 +102,12 @@ class ShowCollectionsList extends StatelessWidget {
                       SizedBox(width: 7.5.w),
                       Text(
                         ele.name ?? '',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 14,
-                          color: blackColor,
+                          color: index == -1
+                              ? blackColor
+                              : blackColor.withOpacity(.5),
                         ),
                       ),
                     ]),

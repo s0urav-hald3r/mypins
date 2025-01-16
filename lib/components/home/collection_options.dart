@@ -66,7 +66,7 @@ class CollectionOptions extends StatelessWidget {
                 isScrollControlled: true,
                 builder: (context) {
                   controller.resetSelectedPins();
-                  return ShowPinsList(collectionTag: model.name!);
+                  return ShowPinsList(collection: model);
                 });
           },
           child: Padding(

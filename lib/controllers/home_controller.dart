@@ -18,6 +18,7 @@ import 'package:mypins/services/overlay_loader.dart';
 import 'package:mypins/utils/overlay_msg_loader.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 enum Plan { WEEKLY, MONTHLY, LIFETIME }
 
@@ -31,6 +32,7 @@ class HomeController extends GetxController {
   final pinUrl = TextEditingController();
   final rename = TextEditingController();
   final createCollection = TextEditingController();
+  final requestFeature = TextEditingController();
 
   @override
   void onInit() {
@@ -354,5 +356,26 @@ class HomeController extends GetxController {
     }
 
     await addCollectionsToLocal();
+  }
+
+  void sendMailForRequestFeature() async {
+    String featureDescription = requestFeature.text;
+
+    final Uri params = Uri(
+      scheme: 'mailto',
+      path: supportMail,
+      query: 'subject=Request for a new Feature&body=$featureDescription',
+    );
+
+    try {
+      if (!await launchUrl(params, mode: LaunchMode.externalApplication)) {
+        throw Exception('Could not launch $params');
+      }
+
+      requestFeature.clear();
+      NavigatorKey.pop();
+    } catch (e) {
+      debugPrint('error while launching url: $e');
+    }
   }
 }

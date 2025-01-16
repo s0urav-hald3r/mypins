@@ -16,6 +16,8 @@ class PinInfoBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint('pinModel: ${pinModel}');
+
     return Container(
       width: MediaQuery.of(context).size.width,
       padding: EdgeInsets.fromLTRB(25.w, 0, 25.w, 0),
@@ -107,7 +109,9 @@ class PinInfoBox extends StatelessWidget {
               ),
             ),
             Text(
-              pinModel.title ?? 'Title not available for this Pin!',
+              (pinModel.title ?? '').trim().isEmpty
+                  ? 'not available...'
+                  : pinModel.title!,
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
@@ -130,8 +134,9 @@ class PinInfoBox extends StatelessWidget {
             SizedBox(
               width: MediaQuery.of(context).size.width - 50.w,
               child: Text(
-                pinModel.description ??
-                    'Description not available for this Pin!',
+                (pinModel.description ?? '').trim().isEmpty
+                    ? 'not available...'
+                    : pinModel.description!,
                 // maxLines: 5,
                 style: const TextStyle(
                   fontSize: 16,
@@ -147,8 +152,7 @@ class PinInfoBox extends StatelessWidget {
           InkWell(
             onTap: () async {
               try {
-                Clipboard.setData(ClipboardData(
-                    text: 'https://in.pinterest.com/${pinModel.userName}/'));
+                Clipboard.setData(ClipboardData(text: pinModel.pinterestLink!));
                 NavigatorKey.pop();
 
                 await Future.delayed(const Duration(milliseconds: 250));
@@ -187,8 +191,7 @@ class PinInfoBox extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              UtilityFunctions.openUrl(
-                  'https://in.pinterest.com/${pinModel.userName}/');
+              UtilityFunctions.openUrl(pinModel.pinterestLink!);
               NavigatorKey.pop();
             },
             child: Container(

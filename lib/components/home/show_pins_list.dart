@@ -4,17 +4,33 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:mypins/config/colors.dart';
 import 'package:mypins/controllers/home_controller.dart';
+import 'package:mypins/models/collection_model.dart';
 import 'package:mypins/services/navigator_key.dart';
 import 'package:mypins/utils/extension.dart';
+import 'package:super_tooltip/super_tooltip.dart';
 
-class ShowPinsList extends StatelessWidget {
-  final String collectionTag;
-  const ShowPinsList({super.key, required this.collectionTag});
+class ShowPinsList extends StatefulWidget {
+  final CollectionModel collection;
+  const ShowPinsList({super.key, required this.collection});
+
+  @override
+  State<ShowPinsList> createState() => _ShowPinsListState();
+}
+
+class _ShowPinsListState extends State<ShowPinsList> {
+  final controller = HomeController.instance;
+  final _controller = SuperTooltipController();
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(const Duration(seconds: 1), () {
+      _controller.showTooltip();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    final controller = HomeController.instance;
-
     return Obx(() {
       return Container(
         width: MediaQuery.of(context).size.width,
@@ -27,29 +43,57 @@ class ShowPinsList extends StatelessWidget {
           color: whiteColor,
         ),
         child: Column(children: [
-          Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-            Container(
-              width: 120.w,
-              height: 30.h,
-              margin: EdgeInsets.fromLTRB(0, 10.h, 20.w, 10.h),
-              child: ElevatedButton(
-                onPressed: () {
-                  controller.selectedPins.isNotEmpty
-                      ? controller.addPinsToCollection(collectionTag)
-                      : NavigatorKey.pop();
-                },
-                child: Text(
-                  controller.selectedPins.isNotEmpty
-                      ? 'Select(${controller.selectedPins.length})'
-                      : 'Close',
-                  style: const TextStyle(
-                    color: whiteColor,
-                    fontSize: 16,
+          Padding(
+            padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 10.h),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SuperTooltip(
+                    controller: _controller,
+                    showBarrier: true,
+                    showDropBoxFilter: true,
+                    sigmaX: 5,
+                    sigmaY: 5,
+                    hideTooltipOnTap: true,
+                    arrowLength: 10,
+                    arrowBaseWidth: 15,
+                    content: const Text(
+                      '''
+          Pin selection Info:
+          - Long press to select a pin.
+          - Tap to unselect a pin.''',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: primaryColor,
+                      ),
+                    ),
+                    child:
+                        const Icon(Icons.info, color: primaryColor, size: 20),
                   ),
-                ),
-              ),
-            ),
-          ]),
+                  SizedBox(
+                    width: 120.w,
+                    height: 30.h,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        controller.selectedPins.isNotEmpty
+                            ? controller
+                                .addPinsToCollection(widget.collection.name!)
+                            : NavigatorKey.pop();
+                      },
+                      child: Text(
+                        controller.selectedPins.isNotEmpty
+                            ? 'Select(${controller.selectedPins.length})'
+                            : 'Close',
+                        style: const TextStyle(
+                          color: whiteColor,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                  ),
+                ]),
+          ),
           Expanded(
             child: MasonryGridView.builder(
                 itemCount: controller.savedPins.length,
@@ -62,6 +106,13 @@ class ShowPinsList extends StatelessWidget {
                   crossAxisCount: 2,
                 ),
                 itemBuilder: (count, index) {
+                  int pIndex = widget.collection.pins.indexWhere((p) =>
+                      p.imageUrl == controller.savedPins[index].imageUrl);
+
+                  if (pIndex != -1) {
+                    return const SizedBox.shrink();
+                  }
+
                   return InkWell(
                     onTap: () {
                       controller.removePin(controller.savedPins[index]);

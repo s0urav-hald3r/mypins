@@ -21,3 +21,4 @@ const String shareText = '';
 const String privacyPolicyUrl = '';
 const String termsOfUseUrl = '';
 const String supportUrl = '';
+const String supportMail = '';

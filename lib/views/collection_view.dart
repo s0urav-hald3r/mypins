@@ -188,26 +188,49 @@ class InitialCollectionView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Padding(
-        padding: EdgeInsets.only(left: 20.w),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text(
-            model.name ?? '',
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 14,
-              color: blackColor,
-            ),
-          ),
-          Text(
-            '${model.pins.length} Saved',
-            style: const TextStyle(
-              fontWeight: FontWeight.w400,
-              fontSize: 12,
-              color: Color(0xFF4B4B4B),
-            ),
-          ),
-          SizedBox(height: 15.h),
-        ]),
+        padding: EdgeInsets.symmetric(horizontal: 20.w),
+        child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Text(
+                  model.name ?? '',
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                    color: blackColor,
+                  ),
+                ),
+                Text(
+                  '${model.pins.length} Saved',
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w400,
+                    fontSize: 12,
+                    color: Color(0xFF4B4B4B),
+                  ),
+                ),
+                SizedBox(height: 15.h),
+              ]),
+              InkWell(
+                onTap: () {
+                  showModalBottomSheet(
+                      context: context,
+                      builder: (context) {
+                        return CollectionOptions(model: model);
+                      });
+                },
+                child: Container(
+                  width: 40.w,
+                  height: 35.h,
+                  decoration: BoxDecoration(
+                    color: primaryColor,
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Center(child: SvgPicture.asset(menuIcon)),
+                ),
+              )
+            ]),
       ),
       SizedBox(
         height: 100.h,
@@ -227,7 +250,7 @@ class InitialCollectionView extends StatelessWidget {
                         isScrollControlled: true,
                         builder: (context) {
                           HomeController.instance.resetSelectedPins();
-                          return ShowPinsList(collectionTag: model.name!);
+                          return ShowPinsList(collection: model);
                         });
                   }
                 },
