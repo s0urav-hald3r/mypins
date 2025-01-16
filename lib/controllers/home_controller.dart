@@ -178,9 +178,13 @@ class HomeController extends GetxController {
 
   void selectPin(PinModel pin) {
     int index = savedPins.indexWhere((ele) => pin.imageUrl == ele.imageUrl);
+
     if (index != -1) {
-      selectedPins.add(pin);
-      savedPins[index] = pin.copyWith(isSelected: true);
+      int sIn = selectedPins.indexWhere((ele) => pin.imageUrl == ele.imageUrl);
+      if (sIn == -1) {
+        selectedPins.add(pin);
+        savedPins[index] = pin.copyWith(isSelected: true);
+      }
     }
   }
 
