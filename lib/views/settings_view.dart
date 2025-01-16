@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:in_app_review/in_app_review.dart';
 import 'package:mypins/components/settings/request_feature_box.dart';
 import 'package:mypins/components/settings/usage_box.dart';
 import 'package:mypins/config/colors.dart';
+import 'package:mypins/config/constants.dart';
 import 'package:mypins/config/icons.dart';
 import 'package:mypins/controllers/home_controller.dart';
 import 'package:mypins/services/navigator_key.dart';
 import 'package:mypins/utils/extension.dart';
+import 'package:mypins/utils/utility_functions.dart';
 import 'package:mypins/views/premium_view.dart';
+import 'package:share_plus/share_plus.dart';
 
 class SettingsView extends StatelessWidget {
   const SettingsView({super.key});
@@ -113,16 +117,31 @@ class SettingsView extends StatelessWidget {
               callBack: () {
                 showModalBottomSheet(
                     context: context,
-                    isDismissible: false,
                     isScrollControlled: true,
                     builder: (context) {
                       return const RequestFeatureBox();
                     });
               }),
           const Divider(color: Color(0xFFEAEAEA), height: 1),
-          MenuItem(icon: reviewIcon, title: 'Write Review', callBack: () {}),
+          MenuItem(
+              icon: reviewIcon,
+              title: 'Write Review',
+              callBack: () async {
+                if (await InAppReview.instance.isAvailable()) {
+                  InAppReview.instance.requestReview();
+                }
+              }),
           const Divider(color: Color(0xFFEAEAEA), height: 1),
-          MenuItem(icon: shareIcon, title: 'Share App', callBack: () {}),
+          MenuItem(
+              icon: shareIcon,
+              title: 'Share App',
+              callBack: () async {
+                try {
+                  await Share.share(shareText);
+                } catch (e) {
+                  debugPrint('Faild to share with friends');
+                }
+              }),
           SizedBox(height: 20.h),
           Text(
             'About Us'.toUpperCase(),
@@ -133,9 +152,19 @@ class SettingsView extends StatelessWidget {
             ),
           ),
           SizedBox(height: 6.h),
-          MenuItem(icon: privacyIcon, title: 'Privacy Policy', callBack: () {}),
+          MenuItem(
+              icon: privacyIcon,
+              title: 'Privacy Policy',
+              callBack: () {
+                UtilityFunctions.openUrl(privacyPolicyUrl);
+              }),
           const Divider(color: Color(0xFFEAEAEA), height: 1),
-          MenuItem(icon: termsIcon, title: 'Terms of Service', callBack: () {}),
+          MenuItem(
+              icon: termsIcon,
+              title: 'Terms of Service',
+              callBack: () {
+                UtilityFunctions.openUrl(termsOfUseUrl);
+              }),
           const Spacer(),
           InkWell(
             onTap: () {

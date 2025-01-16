@@ -17,8 +17,10 @@ const String yearlyPlanIndentifier = '';
 const String appleApiKey = '';
 
 // Required urls
-const String shareText = '';
-const String privacyPolicyUrl = '';
-const String termsOfUseUrl = '';
-const String supportUrl = '';
-const String supportMail = '';
+const String shareText =
+    'Use this app to download and save all your favourite pins at one place:\nhttps://apps.apple.com/app/id6740624770';
+const String privacyPolicyUrl = 'https://sites.google.com/view/pinsavve/home';
+const String termsOfUseUrl =
+    'https://sites.google.com/view/pinsavve/terms-of-use';
+const String supportUrl = 'https://sites.google.com/view/pinsavve/support';
+const String supportMail = 'kessler@firstlighthomecare.online';
