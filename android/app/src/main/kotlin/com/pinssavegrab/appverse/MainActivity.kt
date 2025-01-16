@@ -1,4 +1,4 @@
-package com.example.mypins
+package com.pinssavegrab.appverse
 
 import io.flutter.embedding.android.FlutterActivity
 
