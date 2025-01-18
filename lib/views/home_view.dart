@@ -46,10 +46,11 @@ class HomeView extends StatelessWidget {
           shape: const CircleBorder(),
           onPressed: () {
             if (controller.homeIndex == 0) {
-              if (!SettingsController.instance.isPremium &&
-                  controller.savedPinsCount <= 20) {
-                NavigatorKey.push(const PremiumView());
-                return;
+              if (!SettingsController.instance.isPremium) {
+                if (controller.savedPinsCount == 20) {
+                  NavigatorKey.push(const PremiumView());
+                  return;
+                }
               }
             }
 

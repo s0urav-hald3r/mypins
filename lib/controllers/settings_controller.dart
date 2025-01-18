@@ -91,29 +91,25 @@ class SettingsController extends GetxController {
       debugPrint('customerInfo while purchase: $customerInfo');
 
       // Access customer information to verify the active subscriptions
-      if (customerInfo.activeSubscriptions.isNotEmpty) {
-        debugPrint("User successfully subscribed!");
-        isPremium = true;
-        LocalStorage.addData(isPremiumUser, true);
-        OverlayLoader.hide();
-        Get.back();
-        Get.snackbar('', '',
-            icon: const Icon(Icons.done),
-            shouldIconPulse: true,
-            titleText: const Text(
-              'Success',
-              style: TextStyle(
-                  fontSize: 16, color: whiteColor, fontWeight: FontWeight.bold),
-            ),
-            messageText: const Text(
-              'Subscription purchase successfully!',
-              style: TextStyle(fontSize: 14, color: whiteColor),
-            ),
-            backgroundColor: primaryColor,
-            snackPosition: SnackPosition.BOTTOM);
-      } else {
-        OverlayLoader.hide();
-      }
+      debugPrint("User successfully subscribed!");
+      isPremium = true;
+      LocalStorage.addData(isPremiumUser, true);
+      OverlayLoader.hide();
+      Get.back();
+      Get.snackbar('', '',
+          icon: const Icon(Icons.done),
+          shouldIconPulse: true,
+          titleText: const Text(
+            'Success',
+            style: TextStyle(
+                fontSize: 16, color: whiteColor, fontWeight: FontWeight.bold),
+          ),
+          messageText: const Text(
+            'Subscription purchase successfully!',
+            style: TextStyle(fontSize: 14, color: whiteColor),
+          ),
+          backgroundColor: primaryColor,
+          snackPosition: SnackPosition.BOTTOM);
     } on PlatformException catch (e) {
       debugPrint('error: $e');
       OverlayLoader.hide();
@@ -191,7 +187,7 @@ class SettingsController extends GetxController {
   Future checkSubscriptionStatus() async {
     try {
       CustomerInfo customerInfo = await Purchases.getCustomerInfo();
-      debugPrint('customerInfo: $customerInfo');
+      debugPrint('customerInfo while check: $customerInfo');
 
       // Replace "your_entitlement_id" with the ID of your entitlement in RevenueCat
       EntitlementInfo? entitlement =

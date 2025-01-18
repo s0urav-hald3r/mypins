@@ -105,10 +105,14 @@ class SettingsView extends StatelessWidget {
           }),
           // MenuItem(icon: widgetIcon, title: 'Widget', callBack: () {}),
           // const Divider(color: Color(0xFFEAEAEA), height: 1),
-          MenuItem(icon: hiwIcon, title: 'How it Works', callBack: () {}),
-          const Divider(color: Color(0xFFEAEAEA), height: 1),
+          // MenuItem(icon: hiwIcon, title: 'How it Works', callBack: () {}),
+          // const Divider(color: Color(0xFFEAEAEA), height: 1),
           MenuItem(
-              icon: restoreIcon, title: 'Restore Purchase', callBack: () {}),
+              icon: restoreIcon,
+              title: 'Restore Purchase',
+              callBack: () {
+                SettingsController.instance.restorePurchases();
+              }),
           SizedBox(height: 20.h),
           Text(
             'Write Us'.toUpperCase(),
