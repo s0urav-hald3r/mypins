@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mypins/config/colors.dart';
+import 'package:mypins/config/constants.dart';
 import 'package:mypins/controllers/home_controller.dart';
 import 'package:mypins/controllers/settings_controller.dart';
 import 'package:mypins/utils/extension.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class PlanContainer extends StatefulWidget {
   const PlanContainer({super.key});
@@ -23,19 +26,28 @@ class _PlanContainerState extends State<PlanContainer> {
       width: MediaQuery.of(context).size.width,
       child: Obx(() {
         return Column(children: [
-          _planItem(
-            Plan.MONTHLY,
-            controller.selectedPlan,
+          Skeletonizer(
+            enabled: settingsController.isLoading,
+            child: _planItem(
+              Plan.MONTHLY,
+              controller.selectedPlan,
+            ),
           ),
           SizedBox(height: 15.h),
-          _planItem(
-            Plan.LIFETIME,
-            controller.selectedPlan,
+          Skeletonizer(
+            enabled: settingsController.isLoading,
+            child: _planItem(
+              Plan.LIFETIME,
+              controller.selectedPlan,
+            ),
           ),
           SizedBox(height: 15.h),
-          _planItem(
-            Plan.WEEKLY,
-            controller.selectedPlan,
+          Skeletonizer(
+            enabled: settingsController.isLoading,
+            child: _planItem(
+              Plan.WEEKLY,
+              controller.selectedPlan,
+            ),
           ),
         ]);
       }),
@@ -49,18 +61,18 @@ class _PlanContainerState extends State<PlanContainer> {
       case Plan.MONTHLY:
         return 'Monthly';
       case Plan.LIFETIME:
-        return 'Lifetime membership';
+        return 'Lifetime Membership';
     }
   }
 
-  int getPrice(Plan value) {
+  String getPlanIndentifier(Plan value) {
     switch (value) {
       case Plan.WEEKLY:
-        return 299;
+        return weeklyPlanIndentifier;
       case Plan.MONTHLY:
-        return 599;
+        return monthlyPlanIndentifier;
       case Plan.LIFETIME:
-        return 1499;
+        return lifetimePlanIndentifier;
     }
   }
 
@@ -76,6 +88,9 @@ class _PlanContainerState extends State<PlanContainer> {
   }
 
   Widget _planItem(Plan cValue, Plan gValue) {
+    StoreProduct? product = settingsController.storeProduct.firstWhereOrNull(
+        (element) => element.identifier == getPlanIndentifier(cValue));
+
     return InkWell(
         onTap: () {
           HomeController.instance.selectedPlan = cValue;
@@ -107,7 +122,7 @@ class _PlanContainerState extends State<PlanContainer> {
                       ),
                     ),
                     Text(
-                      '₹${getPrice(cValue)}',
+                      product?.priceString ?? '',
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 17,

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:mypins/components/premium/plan_container.dart';
 import 'package:mypins/components/premium/premium_links.dart';
 import 'package:mypins/components/settings/usage_box.dart';
 import 'package:mypins/config/colors.dart';
 import 'package:mypins/config/icons.dart';
+import 'package:mypins/controllers/settings_controller.dart';
 import 'package:mypins/services/navigator_key.dart';
 import 'package:mypins/utils/extension.dart';
 
@@ -13,6 +15,8 @@ class PremiumView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = SettingsController.instance;
+
     return Scaffold(
       appBar: AppBar(automaticallyImplyLeading: false, actions: [
         InkWell(
@@ -72,28 +76,29 @@ class PremiumView extends StatelessWidget {
               color: blackColor,
             ),
           ),
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: 40.h,
-            margin: EdgeInsets.symmetric(horizontal: 25.w, vertical: 25.h),
-            decoration: BoxDecoration(
-              border: Border.all(color: const Color(0xFF2388FF)),
-              borderRadius: BorderRadius.circular(15),
-            ),
-            child: Row(children: [
-              SizedBox(width: 10.w),
-              SvgPicture.asset(rewardIcon),
-              SizedBox(width: 10.w),
-              const Text(
-                '50 Credit Per Month Free',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: Color(0xFF2388FF),
-                ),
-              ),
-            ]),
-          ),
+          // Container(
+          //   width: MediaQuery.of(context).size.width,
+          //   height: 40.h,
+          //   margin: EdgeInsets.fromLTRB(25.w, 25.h, 25.w, 0),
+          //   decoration: BoxDecoration(
+          //     border: Border.all(color: const Color(0xFF2388FF)),
+          //     borderRadius: BorderRadius.circular(15),
+          //   ),
+          //   child: Row(children: [
+          //     SizedBox(width: 10.w),
+          //     SvgPicture.asset(rewardIcon),
+          //     SizedBox(width: 10.w),
+          //     const Text(
+          //       '50 Credit Per Month Free',
+          //       style: TextStyle(
+          //         fontSize: 14,
+          //         fontWeight: FontWeight.w500,
+          //         color: Color(0xFF2388FF),
+          //       ),
+          //     ),
+          //   ]),
+          // ),
+          const Spacer(),
           const Row(children: [
             PointCard(point: 'Unlimited Saving'),
             PointCard(point: 'High Quality'),
@@ -105,19 +110,25 @@ class PremiumView extends StatelessWidget {
           ]),
           const Spacer(),
           const PlanContainer(),
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: 45.h,
-            margin: EdgeInsets.symmetric(horizontal: 25.h, vertical: 20.h),
-            decoration: BoxDecoration(
-              color: primaryColor,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: ElevatedButton(
-              onPressed: () {},
-              child: const Text('Continue'),
-            ),
-          ),
+          Obx(() {
+            return Container(
+              width: MediaQuery.of(context).size.width,
+              height: 45.h,
+              margin: EdgeInsets.symmetric(horizontal: 25.h, vertical: 20.h),
+              decoration: BoxDecoration(
+                color: primaryColor,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: ElevatedButton(
+                onPressed: controller.isLoading
+                    ? null
+                    : () {
+                        controller.purchaseProduct();
+                      },
+                child: Text(controller.isPremium ? 'Subscribed' : 'Continue ≻'),
+              ),
+            );
+          }),
           const PremiumLinks(),
           SizedBox(height: MediaQuery.of(context).padding.bottom)
         ]),

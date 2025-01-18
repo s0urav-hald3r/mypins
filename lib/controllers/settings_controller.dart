@@ -15,7 +15,7 @@ class SettingsController extends GetxController {
   void onInit() {
     super.onInit();
     isPremium = LocalStorage.getData(isPremiumUser, KeyType.BOOL);
-    // callAPIs();
+    callAPIs();
   }
 
   Future<void> callAPIs() async {
@@ -52,9 +52,12 @@ class SettingsController extends GetxController {
       final products = await Purchases.getProducts([
         weeklyPlanIndentifier,
         monthlyPlanIndentifier,
-        yearlyPlanIndentifier,
+        lifetimePlanIndentifier,
       ]);
-      debugPrint('store products: $products');
+
+      for (var product in products) {
+        debugPrint('product :: $product');
+      }
 
       storeProduct = products;
       isLoading = false;
@@ -71,8 +74,8 @@ class SettingsController extends GetxController {
         return weeklyPlanIndentifier;
       case Plan.MONTHLY:
         return monthlyPlanIndentifier;
-      default:
-        return weeklyPlanIndentifier;
+      case Plan.LIFETIME:
+        return lifetimePlanIndentifier;
     }
   }
 
@@ -85,10 +88,11 @@ class SettingsController extends GetxController {
     OverlayLoader.show();
     try {
       final customerInfo = await Purchases.purchaseStoreProduct(getProduct());
+      debugPrint('customerInfo while purchase: $customerInfo');
 
       // Access customer information to verify the active subscriptions
       if (customerInfo.activeSubscriptions.isNotEmpty) {
-        debugPrint("User successfully subscribed with free trial!");
+        debugPrint("User successfully subscribed!");
         isPremium = true;
         LocalStorage.addData(isPremiumUser, true);
         OverlayLoader.hide();
@@ -102,7 +106,7 @@ class SettingsController extends GetxController {
                   fontSize: 16, color: whiteColor, fontWeight: FontWeight.bold),
             ),
             messageText: const Text(
-              'Subscription purchase successfully !',
+              'Subscription purchase successfully!',
               style: TextStyle(fontSize: 14, color: whiteColor),
             ),
             backgroundColor: primaryColor,
@@ -110,8 +114,6 @@ class SettingsController extends GetxController {
       } else {
         OverlayLoader.hide();
       }
-
-      debugPrint('customerInfo while purchase: $customerInfo');
     } on PlatformException catch (e) {
       debugPrint('error: $e');
       OverlayLoader.hide();
@@ -149,7 +151,7 @@ class SettingsController extends GetxController {
                   fontSize: 16, color: whiteColor, fontWeight: FontWeight.bold),
             ),
             messageText: const Text(
-              'Subscription restored successfully !',
+              'Subscription restored successfully!',
               style: TextStyle(fontSize: 14, color: whiteColor),
             ),
             backgroundColor: primaryColor,

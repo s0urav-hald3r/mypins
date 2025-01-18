@@ -50,6 +50,7 @@ dependencies:
   flutter_config: ^2.0.2
   path_provider: ^2.1.5
   super_tooltip: ^2.0.9
+  skeletonizer: ^1.4.3
 
 dev_dependencies:
   flutter_test:

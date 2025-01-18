@@ -9,6 +9,7 @@ import 'package:mypins/components/home/show_collections_list.dart';
 import 'package:mypins/config/colors.dart';
 import 'package:mypins/config/icons.dart';
 import 'package:mypins/controllers/home_controller.dart';
+import 'package:mypins/controllers/settings_controller.dart';
 import 'package:mypins/services/navigator_key.dart';
 import 'package:mypins/utils/extension.dart';
 import 'package:mypins/views/premium_view.dart';
@@ -75,52 +76,53 @@ class _PinSaveViewState extends State<PinSaveView> {
               ),
             ),
           ),
-          Container(
-            color: Colors.transparent,
-            margin: EdgeInsets.only(bottom: 20.h),
-            padding: EdgeInsets.symmetric(horizontal: 20.w),
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    '${controller.savedPinsCount}/20 Saves Usage',
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: primaryColor,
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      NavigatorKey.push(const PremiumView());
-                    },
-                    child: Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
-                      decoration: BoxDecoration(
-                        color: secondaryColor,
-                        borderRadius: BorderRadius.circular(15),
+          if (!SettingsController.instance.isPremium)
+            Container(
+              color: Colors.transparent,
+              margin: EdgeInsets.only(bottom: 20.h),
+              padding: EdgeInsets.symmetric(horizontal: 20.w),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      '${controller.savedPinsCount}/20 Saves Usage',
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: primaryColor,
                       ),
-                      child: Row(children: [
-                        SvgPicture.asset(
-                          premiumIcon,
-                          width: 15.w,
-                          color: whiteColor,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        NavigatorKey.push(const PremiumView());
+                      },
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 10.w, vertical: 5.h),
+                        decoration: BoxDecoration(
+                          color: secondaryColor,
+                          borderRadius: BorderRadius.circular(15),
                         ),
-                        SizedBox(width: 5.w),
-                        const Text(
-                          'Get Unlimited',
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
+                        child: Row(children: [
+                          SvgPicture.asset(
+                            premiumIcon,
+                            width: 15.w,
                             color: whiteColor,
                           ),
-                        ),
-                      ]),
-                    ),
-                  )
-                ]),
-          ),
+                          SizedBox(width: 5.w),
+                          const Text(
+                            'Get Unlimited',
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                              color: whiteColor,
+                            ),
+                          ),
+                        ]),
+                      ),
+                    )
+                  ]),
+            ),
           Expanded(
             child: MasonryGridView.builder(
                 itemCount: controller.localSavedPins.length,
